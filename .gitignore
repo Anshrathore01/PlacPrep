@@ -1,0 +1,27 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+
+# Next.js
+node_modules/
+.next/
+out/
+
+# OS files
+.DS_Store
+
+# Test/build artifacts
+.pytest_cache/
+coverage/
+dist/
+build/
+
+# Temporary backups
+*.bak

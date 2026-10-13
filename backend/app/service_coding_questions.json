@@ -1,0 +1,932 @@
+[
+  {
+    "title": "Basic Math & Number Theory",
+    "problems": [
+      {
+        "id": "check-if-a-number-is-prime-or-not-1",
+        "number": 1,
+        "title": "Check if a number is Prime or not",
+        "url": "https://www.geeksforgeeks.org/problems/prime-number2314/1"
+      },
+      {
+        "id": "print-all-prime-numbers-in-a-given-range-2",
+        "number": 2,
+        "title": "Print all Prime numbers in a given range",
+        "url": "https://leetcode.com/problems/count-primes/"
+      },
+      {
+        "id": "check-if-a-number-is-an-armstrong-number-3",
+        "number": 3,
+        "title": "Check if a number is an Armstrong number",
+        "url": "https://www.geeksforgeeks.org/problems/armstrong-numbers2727/1"
+      },
+      {
+        "id": "check-if-a-number-is-a-palindrome-4",
+        "number": 4,
+        "title": "Check if a number is a Palindrome",
+        "url": "https://leetcode.com/problems/palindrome-number/"
+      },
+      {
+        "id": "find-the-factorial-of-a-number-5",
+        "number": 5,
+        "title": "Find the Factorial of a number",
+        "url": "https://www.geeksforgeeks.org/problems/factorial5739/1"
+      },
+      {
+        "id": "print-the-fibonacci-series-up-to-n-terms-6",
+        "number": 6,
+        "title": "Print the Fibonacci series up to N terms",
+        "url": "https://leetcode.com/problems/fibonacci-number/"
+      },
+      {
+        "id": "find-the-n-th-fibonacci-number-using-dynamic-programming-7",
+        "number": 7,
+        "title": "Find the N-th Fibonacci number using Dynamic Programming",
+        "url": "https://leetcode.com/problems/fibonacci-number/"
+      },
+      {
+        "id": "find-gcd-hcf-of-two-numbers-8",
+        "number": 8,
+        "title": "Find GCD / HCF of two numbers",
+        "url": "https://www.geeksforgeeks.org/problems/gcd-of-two-numbers3459/1"
+      },
+      {
+        "id": "find-lcm-of-two-numbers-9",
+        "number": 9,
+        "title": "Find LCM of two numbers",
+        "url": "https://www.geeksforgeeks.org/problems/lcm-and-gcd4516/1"
+      },
+      {
+        "id": "check-if-a-year-is-a-leap-year-10",
+        "number": 10,
+        "title": "Check if a year is a Leap Year",
+        "url": "https://www.geeksforgeeks.org/problems/leap-year3200/1"
+      },
+      {
+        "id": "sum-of-digits-of-a-given-number-11",
+        "number": 11,
+        "title": "Sum of digits of a given number",
+        "url": "https://www.geeksforgeeks.org/problems/sum-of-digits1720/1"
+      },
+      {
+        "id": "reverse-an-integer-12",
+        "number": 12,
+        "title": "Reverse an Integer",
+        "url": "https://leetcode.com/problems/reverse-integer/"
+      },
+      {
+        "id": "count-the-total-number-of-digits-in-a-number-13",
+        "number": 13,
+        "title": "Count the total number of digits in a number",
+        "url": "https://www.geeksforgeeks.org/problems/count-digits5716/1"
+      },
+      {
+        "id": "convert-binary-to-decimal-14",
+        "number": 14,
+        "title": "Convert Binary to Decimal",
+        "url": "https://www.geeksforgeeks.org/problems/binary-to-decimal-1587115620/1"
+      },
+      {
+        "id": "convert-decimal-to-binary-15",
+        "number": 15,
+        "title": "Convert Decimal to Binary",
+        "url": "https://www.geeksforgeeks.org/problems/decimal-to-binary-1587115620/1"
+      },
+      {
+        "id": "convert-binary-to-octal-16",
+        "number": 16,
+        "title": "Convert Binary to Octal",
+        "url": "https://www.geeksforgeeks.org/program-binary-octal-conversion/"
+      },
+      {
+        "id": "check-if-a-number-is-a-perfect-number-17",
+        "number": 17,
+        "title": "Check if a number is a Perfect Number",
+        "url": "https://leetcode.com/problems/perfect-number/"
+      },
+      {
+        "id": "check-if-a-number-is-a-strong-number-18",
+        "number": 18,
+        "title": "Check if a number is a Strong Number",
+        "url": "https://www.geeksforgeeks.org/problems/strong-numbers2321/1"
+      },
+      {
+        "id": "check-if-a-number-is-a-harshad-niven-number-19",
+        "number": 19,
+        "title": "Check if a number is a Harshad / Niven Number",
+        "url": "https://leetcode.com/problems/harshad-number/"
+      },
+      {
+        "id": "check-if-a-number-is-an-automorphic-number-20",
+        "number": 20,
+        "title": "Check if a number is an Automorphic Number",
+        "url": "https://www.geeksforgeeks.org/problems/automorphic-number4715/1"
+      },
+      {
+        "id": "find-power-of-a-number-without-built-in-libraries-21",
+        "number": 21,
+        "title": "Find Power of a number without built-in libraries",
+        "url": "https://leetcode.com/problems/powx-n/"
+      },
+      {
+        "id": "calculate-square-root-without-sqrt-function-22",
+        "number": 22,
+        "title": "Calculate Square Root without `sqrt()` function",
+        "url": "https://leetcode.com/problems/sqrtx/"
+      },
+      {
+        "id": "find-trailing-zeroes-in-n-factorial-23",
+        "number": 23,
+        "title": "Find trailing zeroes in N factorial",
+        "url": "https://leetcode.com/problems/factorial-trailing-zeroes/"
+      },
+      {
+        "id": "find-all-prime-factors-of-a-given-number-24",
+        "number": 24,
+        "title": "Find all prime factors of a given number",
+        "url": "https://www.geeksforgeeks.org/problems/prime-factors5058/1"
+      },
+      {
+        "id": "swap-two-numbers-without-using-a-third-variable-25",
+        "number": 25,
+        "title": "Swap two numbers without using a third variable",
+        "url": "https://www.geeksforgeeks.org/problems/swap-two-numbers3844/1"
+      },
+      {
+        "id": "count-set-bits-in-an-integer-26",
+        "number": 26,
+        "title": "Count set bits in an integer",
+        "url": "https://leetcode.com/problems/number-of-1-bits/"
+      },
+      {
+        "id": "check-if-a-given-integer-is-a-power-of-2-27",
+        "number": 27,
+        "title": "Check if a given integer is a Power of 2",
+        "url": "https://leetcode.com/problems/power-of-two/"
+      },
+      {
+        "id": "print-multiplication-table-for-a-given-number-28",
+        "number": 28,
+        "title": "Print multiplication table for a given number",
+        "url": "https://www.geeksforgeeks.org/problems/print-table0417/1"
+      },
+      {
+        "id": "find-sum-of-all-elements-in-ap-gp-series-29",
+        "number": 29,
+        "title": "Find sum of all elements in AP / GP series",
+        "url": "https://www.geeksforgeeks.org/problems/sum-of-an-ap1025/1"
+      },
+      {
+        "id": "count-trailing-zeros-in-binary-representation-30",
+        "number": 30,
+        "title": "Count trailing zeros in binary representation",
+        "url": "https://leetcode.com/problems/number-of-1-bits/"
+      }
+    ]
+  },
+  {
+    "title": "Arrays & Matrices",
+    "problems": [
+      {
+        "id": "find-largest-and-smallest-element-in-an-array-31",
+        "number": 31,
+        "title": "Find Largest and Smallest element in an array",
+        "url": "https://www.geeksforgeeks.org/problems/find-the-smallest-and-second-smallest-element-in-an-array3201/1"
+      },
+      {
+        "id": "find-second-largest-element-in-an-array-32",
+        "number": 32,
+        "title": "Find Second Largest element in an array",
+        "url": "https://www.geeksforgeeks.org/problems/second-largest1212/1"
+      },
+      {
+        "id": "find-the-median-of-an-array-33",
+        "number": 33,
+        "title": "Find the Median of an array",
+        "url": "https://www.geeksforgeeks.org/problems/find-the-median-of-all-elements-in-a-given-array4808/1"
+      },
+      {
+        "id": "calculate-sum-and-average-of-array-elements-34",
+        "number": 34,
+        "title": "Calculate Sum and Average of array elements",
+        "url": "https://www.geeksforgeeks.org/problems/sum-of-array-elements2502/1"
+      },
+      {
+        "id": "reverse-an-array-in-place-35",
+        "number": 35,
+        "title": "Reverse an array in-place",
+        "url": "https://leetcode.com/problems/reverse-string/"
+      },
+      {
+        "id": "count-frequency-of-each-element-in-an-array-36",
+        "number": 36,
+        "title": "Count frequency of each element in an array",
+        "url": "https://www.geeksforgeeks.org/problems/frequency-of-array-elements-1587115620/1"
+      },
+      {
+        "id": "remove-duplicate-elements-from-a-sorted-array-37",
+        "number": 37,
+        "title": "Remove duplicate elements from a sorted array",
+        "url": "https://leetcode.com/problems/remove-duplicates-from-sorted-array/"
+      },
+      {
+        "id": "remove-duplicate-elements-from-an-unsorted-array-38",
+        "number": 38,
+        "title": "Remove duplicate elements from an unsorted array",
+        "url": "https://www.geeksforgeeks.org/problems/remove-duplicates-from-an-unsorted-array1213/1"
+      },
+      {
+        "id": "find-the-missing-number-in-an-array-1-to-n-39",
+        "number": 39,
+        "title": "Find the Missing Number in an array (1 to N)",
+        "url": "https://leetcode.com/problems/missing-number/"
+      },
+      {
+        "id": "rotate-an-array-by-k-positions-40",
+        "number": 40,
+        "title": "Rotate an array by K positions",
+        "url": "https://leetcode.com/problems/rotate-array/"
+      },
+      {
+        "id": "find-leaders-in-an-array-41",
+        "number": 41,
+        "title": "Find Leaders in an array",
+        "url": "https://www.geeksforgeeks.org/problems/leaders-in-an-array-1587115620/1"
+      },
+      {
+        "id": "rearrange-array-elements-in-zig-zag-fashion-42",
+        "number": 42,
+        "title": "Rearrange array elements in Zig-Zag fashion",
+        "url": "https://www.geeksforgeeks.org/problems/convert-array-into-zig-zag-fashion1638/1"
+      },
+      {
+        "id": "move-all-zeros-to-the-end-of-the-array-43",
+        "number": 43,
+        "title": "Move all zeros to the end of the array",
+        "url": "https://leetcode.com/problems/move-zeroes/"
+      },
+      {
+        "id": "merge-two-sorted-arrays-without-extra-space-44",
+        "number": 44,
+        "title": "Merge two sorted arrays without extra space",
+        "url": "https://leetcode.com/problems/merge-sorted-array/"
+      },
+      {
+        "id": "find-intersection-of-two-arrays-45",
+        "number": 45,
+        "title": "Find Intersection of two arrays",
+        "url": "https://leetcode.com/problems/intersection-of-two-arrays/"
+      },
+      {
+        "id": "find-union-of-two-arrays-46",
+        "number": 46,
+        "title": "Find Union of two arrays",
+        "url": "https://www.geeksforgeeks.org/problems/union-of-two-arrays3538/1"
+      },
+      {
+        "id": "sort-an-array-of-0s-1s-and-2s-47",
+        "number": 47,
+        "title": "Sort an array of 0s, 1s, and 2s",
+        "url": "https://leetcode.com/problems/sort-colors/"
+      },
+      {
+        "id": "find-majority-element-moore-s-voting-algorithm-48",
+        "number": 48,
+        "title": "Find Majority Element (Moore's Voting Algorithm)",
+        "url": "https://leetcode.com/problems/majority-element/"
+      },
+      {
+        "id": "find-maximum-subarray-sum-kadane-s-algorithm-49",
+        "number": 49,
+        "title": "Find Maximum Subarray Sum (Kadane's Algorithm)",
+        "url": "https://leetcode.com/problems/maximum-subarray/"
+      },
+      {
+        "id": "maximum-product-subarray-50",
+        "number": 50,
+        "title": "Maximum Product Subarray",
+        "url": "https://leetcode.com/problems/maximum-product-subarray/"
+      },
+      {
+        "id": "find-a-pair-with-a-given-sum-two-sum-51",
+        "number": 51,
+        "title": "Find a pair with a given sum (Two Sum)",
+        "url": "https://leetcode.com/problems/two-sum/"
+      },
+      {
+        "id": "find-all-triplets-that-sum-to-zero-3sum-52",
+        "number": 52,
+        "title": "Find all triplets that sum to zero (3Sum)",
+        "url": "https://leetcode.com/problems/3sum/"
+      },
+      {
+        "id": "check-if-an-array-is-sorted-53",
+        "number": 53,
+        "title": "Check if an array is sorted",
+        "url": "https://leetcode.com/problems/check-if-array-is-sorted-and-rotated/"
+      },
+      {
+        "id": "count-inversions-in-an-array-54",
+        "number": 54,
+        "title": "Count Inversions in an array",
+        "url": "https://www.geeksforgeeks.org/problems/inversion-of-array-1587115620/1"
+      },
+      {
+        "id": "find-common-elements-in-three-sorted-arrays-55",
+        "number": 55,
+        "title": "Find common elements in three sorted arrays",
+        "url": "https://www.geeksforgeeks.org/problems/common-elements1132/1"
+      },
+      {
+        "id": "matrix-addition-subtraction-and-multiplication-56",
+        "number": 56,
+        "title": "Matrix Addition, Subtraction, and Multiplication",
+        "url": "https://www.geeksforgeeks.org/problems/multiply-matrices/1"
+      },
+      {
+        "id": "transpose-of-a-matrix-57",
+        "number": 57,
+        "title": "Transpose of a Matrix",
+        "url": "https://leetcode.com/problems/transpose-matrix/"
+      },
+      {
+        "id": "rotate-matrix-by-90-degrees-clockwise-58",
+        "number": 58,
+        "title": "Rotate Matrix by 90 degrees clockwise",
+        "url": "https://leetcode.com/problems/rotate-image/"
+      },
+      {
+        "id": "spiral-print-of-a-2d-matrix-59",
+        "number": 59,
+        "title": "Spiral Print of a 2D Matrix",
+        "url": "https://leetcode.com/problems/spiral-matrix/"
+      },
+      {
+        "id": "find-diagonal-sum-of-a-matrix-60",
+        "number": 60,
+        "title": "Find Diagonal Sum of a Matrix",
+        "url": "https://leetcode.com/problems/matrix-diagonal-sum/"
+      },
+      {
+        "id": "search-element-in-row-column-wise-sorted-2d-matrix-61",
+        "number": 61,
+        "title": "Search element in row & column-wise sorted 2D Matrix",
+        "url": "https://leetcode.com/problems/search-a-2d-matrix-ii/"
+      },
+      {
+        "id": "set-matrix-zeroes-62",
+        "number": 62,
+        "title": "Set Matrix Zeroes",
+        "url": "https://leetcode.com/problems/set-matrix-zeroes/"
+      },
+      {
+        "id": "maximum-path-sum-in-matrix-63",
+        "number": 63,
+        "title": "Maximum Path Sum in Matrix",
+        "url": "https://www.geeksforgeeks.org/problems/maximum-path-sum-in-matrix1001/1"
+      },
+      {
+        "id": "trapping-rain-water-64",
+        "number": 64,
+        "title": "Trapping Rain Water",
+        "url": "https://leetcode.com/problems/trapping-rain-water/"
+      },
+      {
+        "id": "find-equilibrium-index-of-an-array-65",
+        "number": 65,
+        "title": "Find Equilibrium Index of an array",
+        "url": "https://leetcode.com/problems/find-pivot-index/"
+      }
+    ]
+  },
+  {
+    "title": "Strings & Pattern Matching",
+    "problems": [
+      {
+        "id": "reverse-a-string-without-extra-space-66",
+        "number": 66,
+        "title": "Reverse a String without extra space",
+        "url": "https://leetcode.com/problems/reverse-string/"
+      },
+      {
+        "id": "check-if-a-string-is-a-palindrome-67",
+        "number": 67,
+        "title": "Check if a String is a Palindrome",
+        "url": "https://leetcode.com/problems/valid-palindrome/"
+      },
+      {
+        "id": "check-if-two-strings-are-anagrams-68",
+        "number": 68,
+        "title": "Check if two strings are Anagrams",
+        "url": "https://leetcode.com/problems/valid-anagram/"
+      },
+      {
+        "id": "count-vowels-consonants-digits-special-chars-69",
+        "number": 69,
+        "title": "Count Vowels, Consonants, Digits, Special Chars",
+        "url": "https://www.geeksforgeeks.org/problems/count-custom-character-types/1"
+      },
+      {
+        "id": "find-length-of-string-without-built-in-functions-70",
+        "number": 70,
+        "title": "Find length of string without built-in functions",
+        "url": "https://www.geeksforgeeks.org/find-length-of-a-string-in-python-without-using-len-function/"
+      },
+      {
+        "id": "capitalize-first-and-last-letter-of-each-word-71",
+        "number": 71,
+        "title": "Capitalize first and last letter of each word",
+        "url": "https://www.geeksforgeeks.org/capitalize-first-and-last-letter-of-each-word-in-a-line/"
+      },
+      {
+        "id": "remove-all-white-spaces-from-a-string-72",
+        "number": 72,
+        "title": "Remove all white spaces from a string",
+        "url": "https://www.geeksforgeeks.org/problems/remove-spaces4214/1"
+      },
+      {
+        "id": "remove-special-characters-from-a-string-73",
+        "number": 73,
+        "title": "Remove special characters from a string",
+        "url": "https://www.geeksforgeeks.org/problems/remove-characters-from-alphanumeric-string0648/1"
+      },
+      {
+        "id": "first-non-repeating-character-in-a-string-74",
+        "number": 74,
+        "title": "First non-repeating character in a string",
+        "url": "https://leetcode.com/problems/first-unique-character-in-a-string/"
+      },
+      {
+        "id": "print-maximum-occurring-character-in-a-string-75",
+        "number": 75,
+        "title": "Print maximum occurring character in a string",
+        "url": "https://www.geeksforgeeks.org/problems/maximum-occuring-character-1587115620/1"
+      },
+      {
+        "id": "remove-duplicate-characters-from-a-string-76",
+        "number": 76,
+        "title": "Remove duplicate characters from a string",
+        "url": "https://www.geeksforgeeks.org/problems/remove-all-duplicates-from-a-given-string7421/1"
+      },
+      {
+        "id": "reverse-words-in-a-given-sentence-77",
+        "number": 77,
+        "title": "Reverse words in a given sentence",
+        "url": "https://leetcode.com/problems/reverse-words-in-a-string/"
+      },
+      {
+        "id": "longest-substring-without-repeating-characters-78",
+        "number": 78,
+        "title": "Longest Substring Without Repeating Characters",
+        "url": "https://leetcode.com/problems/longest-substring-without-repeating-characters/"
+      },
+      {
+        "id": "longest-common-prefix-79",
+        "number": 79,
+        "title": "Longest Common Prefix",
+        "url": "https://leetcode.com/problems/longest-common-prefix/"
+      },
+      {
+        "id": "convert-string-to-integer-atoi-implementation-80",
+        "number": 80,
+        "title": "Convert String to Integer (atoi implementation)",
+        "url": "https://leetcode.com/problems/string-to-integer-atoi/"
+      },
+      {
+        "id": "convert-integer-to-string-itoa-implementation-81",
+        "number": 81,
+        "title": "Convert Integer to String (itoa implementation)",
+        "url": "https://www.geeksforgeeks.org/implement-itoa/"
+      },
+      {
+        "id": "check-if-two-strings-are-isomorphic-82",
+        "number": 82,
+        "title": "Check if two strings are Isomorphic",
+        "url": "https://leetcode.com/problems/isomorphic-strings/"
+      },
+      {
+        "id": "count-total-number-of-words-in-a-sentence-83",
+        "number": 83,
+        "title": "Count total number of words in a sentence",
+        "url": "https://www.geeksforgeeks.org/problems/count-words/1"
+      },
+      {
+        "id": "check-valid-parentheses-84",
+        "number": 84,
+        "title": "Check valid parentheses",
+        "url": "https://leetcode.com/problems/valid-parentheses/"
+      },
+      {
+        "id": "replace-spaces-with-20-urlify-85",
+        "number": 85,
+        "title": "Replace spaces with '%20' (URLify)",
+        "url": "https://leetcode.com/problems/string-matching-in-an-array/"
+      },
+      {
+        "id": "check-if-one-string-is-a-rotation-of-another-86",
+        "number": 86,
+        "title": "Check if one string is a rotation of another",
+        "url": "https://leetcode.com/problems/rotate-string/"
+      },
+      {
+        "id": "group-anagrams-together-87",
+        "number": 87,
+        "title": "Group Anagrams together",
+        "url": "https://leetcode.com/problems/group-anagrams/"
+      },
+      {
+        "id": "find-all-permutations-of-a-string-88",
+        "number": 88,
+        "title": "Find all Permutations of a String",
+        "url": "https://www.geeksforgeeks.org/problems/permutations-of-a-given-string2041/1"
+      },
+      {
+        "id": "minimum-window-substring-89",
+        "number": 89,
+        "title": "Minimum Window Substring",
+        "url": "https://leetcode.com/problems/minimum-window-substring/"
+      },
+      {
+        "id": "sort-characters-in-a-string-alphabetically-90",
+        "number": 90,
+        "title": "Sort characters in a string alphabetically",
+        "url": "https://leetcode.com/problems/sort-characters-by-frequency/"
+      },
+      {
+        "id": "count-uppercase-and-lowercase-characters-separately-91",
+        "number": 91,
+        "title": "Count uppercase and lowercase characters separately",
+        "url": "https://www.geeksforgeeks.org/problems/count-of-camel-case-characters1140/1"
+      },
+      {
+        "id": "string-compression-e-g-aabccc-a2b1c3-92",
+        "number": 92,
+        "title": "String Compression (e.g., aabccc -> a2b1c3)",
+        "url": "https://leetcode.com/problems/string-compression/"
+      },
+      {
+        "id": "find-ascii-value-of-a-character-93",
+        "number": 93,
+        "title": "Find ASCII value of a character",
+        "url": "https://www.geeksforgeeks.org/program-print-ascii-value-character/"
+      },
+      {
+        "id": "caesar-cipher-encryption-decryption-94",
+        "number": 94,
+        "title": "Caesar Cipher encryption/decryption",
+        "url": "https://www.geeksforgeeks.org/caesar-cipher-in-cryptography/"
+      },
+      {
+        "id": "word-break-problem-95",
+        "number": 95,
+        "title": "Word Break Problem",
+        "url": "https://leetcode.com/problems/word-break/"
+      }
+    ]
+  },
+  {
+    "title": "Sorting & Searching Algorithms",
+    "problems": [
+      {
+        "id": "implement-linear-search-96",
+        "number": 96,
+        "title": "Implement Linear Search",
+        "url": "https://www.geeksforgeeks.org/problems/search-an-element-in-an-array-1587115621/1"
+      },
+      {
+        "id": "implement-binary-search-iterative-recursive-97",
+        "number": 97,
+        "title": "Implement Binary Search (Iterative & Recursive)",
+        "url": "https://leetcode.com/problems/binary-search/"
+      },
+      {
+        "id": "search-in-a-rotated-sorted-array-98",
+        "number": 98,
+        "title": "Search in a Rotated Sorted Array",
+        "url": "https://leetcode.com/problems/search-in-rotated-sorted-array/"
+      },
+      {
+        "id": "implement-bubble-sort-99",
+        "number": 99,
+        "title": "Implement Bubble Sort",
+        "url": "https://www.geeksforgeeks.org/problems/bubble-sort/1"
+      },
+      {
+        "id": "implement-selection-sort-100",
+        "number": 100,
+        "title": "Implement Selection Sort",
+        "url": "https://www.geeksforgeeks.org/problems/selection-sort/1"
+      },
+      {
+        "id": "implement-insertion-sort-101",
+        "number": 101,
+        "title": "Implement Insertion Sort",
+        "url": "https://www.geeksforgeeks.org/problems/insertion-sort/1"
+      },
+      {
+        "id": "implement-merge-sort-102",
+        "number": 102,
+        "title": "Implement Merge Sort",
+        "url": "https://www.geeksforgeeks.org/problems/merge-sort/1"
+      },
+      {
+        "id": "implement-quick-sort-103",
+        "number": 103,
+        "title": "Implement Quick Sort",
+        "url": "https://www.geeksforgeeks.org/problems/quick-sort/1"
+      },
+      {
+        "id": "implement-heap-sort-104",
+        "number": 104,
+        "title": "Implement Heap Sort",
+        "url": "https://www.geeksforgeeks.org/problems/heap-sort/1"
+      },
+      {
+        "id": "find-kth-largest-smallest-element-105",
+        "number": 105,
+        "title": "Find Kth Largest / Smallest element",
+        "url": "https://leetcode.com/problems/kth-largest-element-in-an-array/"
+      },
+      {
+        "id": "first-and-last-position-of-element-in-sorted-array-106",
+        "number": 106,
+        "title": "First and Last Position of Element in Sorted Array",
+        "url": "https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/"
+      },
+      {
+        "id": "search-insert-position-in-a-sorted-array-107",
+        "number": 107,
+        "title": "Search Insert Position in a sorted array",
+        "url": "https://leetcode.com/problems/search-insert-position/"
+      },
+      {
+        "id": "find-peak-element-in-an-array-108",
+        "number": 108,
+        "title": "Find Peak Element in an array",
+        "url": "https://leetcode.com/problems/find-peak-element/"
+      },
+      {
+        "id": "find-square-root-of-an-integer-using-binary-search-109",
+        "number": 109,
+        "title": "Find square root of an integer using Binary Search",
+        "url": "https://leetcode.com/problems/sqrtx/"
+      },
+      {
+        "id": "top-k-frequent-elements-110",
+        "number": 110,
+        "title": "Top K Frequent Elements",
+        "url": "https://leetcode.com/problems/top-k-frequent-elements/"
+      }
+    ]
+  },
+  {
+    "title": "Data Structures: Stack, Queue & Linked List",
+    "problems": [
+      {
+        "id": "reverse-a-singly-linked-list-111",
+        "number": 111,
+        "title": "Reverse a Singly Linked List",
+        "url": "https://leetcode.com/problems/reverse-linked-list/"
+      },
+      {
+        "id": "find-middle-node-of-a-linked-list-112",
+        "number": 112,
+        "title": "Find Middle Node of a Linked List",
+        "url": "https://leetcode.com/problems/middle-of-the-linked-list/"
+      },
+      {
+        "id": "detect-loop-cycle-in-a-linked-list-113",
+        "number": 113,
+        "title": "Detect Loop/Cycle in a Linked List",
+        "url": "https://leetcode.com/problems/linked-list-cycle/"
+      },
+      {
+        "id": "remove-n-th-node-from-end-of-linked-list-114",
+        "number": 114,
+        "title": "Remove N-th Node from End of Linked List",
+        "url": "https://leetcode.com/problems/remove-nth-node-from-end-of-list/"
+      },
+      {
+        "id": "intersection-point-of-two-linked-lists-115",
+        "number": 115,
+        "title": "Intersection Point of Two Linked Lists",
+        "url": "https://leetcode.com/problems/intersection-of-two-linked-lists/"
+      },
+      {
+        "id": "check-if-a-linked-list-is-a-palindrome-116",
+        "number": 116,
+        "title": "Check if a Linked List is a Palindrome",
+        "url": "https://leetcode.com/problems/palindrome-linked-list/"
+      },
+      {
+        "id": "flatten-a-multilevel-doubly-linked-list-117",
+        "number": 117,
+        "title": "Flatten a Multilevel Doubly Linked List",
+        "url": "https://leetcode.com/problems/flatten-a-multilevel-doubly-linked-list/"
+      },
+      {
+        "id": "rotate-a-linked-list-by-k-nodes-118",
+        "number": 118,
+        "title": "Rotate a Linked List by K Nodes",
+        "url": "https://leetcode.com/problems/rotate-list/"
+      },
+      {
+        "id": "implement-stack-using-array-linked-list-119",
+        "number": 119,
+        "title": "Implement Stack using Array/Linked List",
+        "url": "https://www.geeksforgeeks.org/problems/implement-stack-using-linked-list/1"
+      },
+      {
+        "id": "implement-queue-using-array-linked-list-120",
+        "number": 120,
+        "title": "Implement Queue using Array/Linked List",
+        "url": "https://www.geeksforgeeks.org/problems/implement-queue-using-linked-list/1"
+      },
+      {
+        "id": "implement-stack-using-two-queues-121",
+        "number": 121,
+        "title": "Implement Stack using Two Queues",
+        "url": "https://leetcode.com/problems/implement-stack-using-queues/"
+      },
+      {
+        "id": "implement-queue-using-two-stacks-122",
+        "number": 122,
+        "title": "Implement Queue using Two Stacks",
+        "url": "https://leetcode.com/problems/implement-queue-using-stacks/"
+      },
+      {
+        "id": "evaluate-postfix-expression-using-stack-123",
+        "number": 123,
+        "title": "Evaluate Postfix Expression using Stack",
+        "url": "https://leetcode.com/problems/evaluate-reverse-polish-notation/"
+      },
+      {
+        "id": "convert-infix-expression-to-postfix-124",
+        "number": 124,
+        "title": "Convert Infix Expression to Postfix",
+        "url": "https://www.geeksforgeeks.org/problems/infix-to-postfix-1587115620/1"
+      },
+      {
+        "id": "next-greater-element-using-stack-125",
+        "number": 125,
+        "title": "Next Greater Element using Stack",
+        "url": "https://leetcode.com/problems/next-greater-element-i/"
+      },
+      {
+        "id": "implement-min-stack-126",
+        "number": 126,
+        "title": "Implement Min Stack",
+        "url": "https://leetcode.com/problems/min-stack/"
+      },
+      {
+        "id": "implement-lru-cache-127",
+        "number": 127,
+        "title": "Implement LRU Cache",
+        "url": "https://leetcode.com/problems/lru-cache/"
+      },
+      {
+        "id": "largest-rectangle-in-histogram-128",
+        "number": 128,
+        "title": "Largest Rectangle in Histogram",
+        "url": "https://leetcode.com/problems/largest-rectangle-in-histogram/"
+      },
+      {
+        "id": "the-celebrity-problem-129",
+        "number": 129,
+        "title": "The Celebrity Problem",
+        "url": "https://www.geeksforgeeks.org/problems/the-celebrity-problem/1"
+      },
+      {
+        "id": "reverse-a-stack-recursively-130",
+        "number": 130,
+        "title": "Reverse a Stack recursively",
+        "url": "https://www.geeksforgeeks.org/problems/reverse-a-stack/1"
+      }
+    ]
+  },
+  {
+    "title": "Trees, Graphs & Dynamic Programming",
+    "problems": [
+      {
+        "id": "calculate-height-maximum-depth-of-binary-tree-131",
+        "number": 131,
+        "title": "Calculate Height / Maximum Depth of Binary Tree",
+        "url": "https://leetcode.com/problems/maximum-depth-of-binary-tree/"
+      },
+      {
+        "id": "binary-tree-traversals-inorder-preorder-postorder-132",
+        "number": 132,
+        "title": "Binary Tree Traversals (Inorder, Preorder, Postorder)",
+        "url": "https://leetcode.com/problems/binary-tree-inorder-traversal/"
+      },
+      {
+        "id": "level-order-traversal-bfs-133",
+        "number": 133,
+        "title": "Level Order Traversal (BFS)",
+        "url": "https://leetcode.com/problems/binary-tree-level-order-traversal/"
+      },
+      {
+        "id": "zigzag-spiral-traversal-of-binary-tree-134",
+        "number": 134,
+        "title": "ZigZag / Spiral Traversal of Binary Tree",
+        "url": "https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/"
+      },
+      {
+        "id": "check-if-two-binary-trees-are-identical-135",
+        "number": 135,
+        "title": "Check if two Binary Trees are Identical",
+        "url": "https://leetcode.com/problems/same-tree/"
+      },
+      {
+        "id": "lowest-common-ancestor-lca-in-binary-tree-136",
+        "number": 136,
+        "title": "Lowest Common Ancestor (LCA) in Binary Tree",
+        "url": "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/"
+      },
+      {
+        "id": "invert-mirror-binary-tree-137",
+        "number": 137,
+        "title": "Invert / Mirror Binary Tree",
+        "url": "https://leetcode.com/problems/invert-binary-tree/"
+      },
+      {
+        "id": "boundary-traversal-of-binary-tree-138",
+        "number": 138,
+        "title": "Boundary Traversal of Binary Tree",
+        "url": "https://www.geeksforgeeks.org/problems/boundary-traversal-of-binary-tree/1"
+      },
+      {
+        "id": "convert-binary-tree-to-doubly-linked-list-139",
+        "number": 139,
+        "title": "Convert Binary Tree to Doubly Linked List",
+        "url": "https://www.geeksforgeeks.org/problems/binary-tree-to-dll/1"
+      },
+      {
+        "id": "implement-trie-insert-search-prefix-140",
+        "number": 140,
+        "title": "Implement Trie (Insert, Search, Prefix)",
+        "url": "https://leetcode.com/problems/implement-trie-prefix-tree/"
+      },
+      {
+        "id": "detect-cycle-in-undirected-graph-141",
+        "number": 141,
+        "title": "Detect Cycle in Undirected Graph",
+        "url": "https://www.geeksforgeeks.org/problems/detect-cycle-in-an-undirected-graph/1"
+      },
+      {
+        "id": "detect-cycle-in-directed-graph-142",
+        "number": 142,
+        "title": "Detect Cycle in Directed Graph",
+        "url": "https://www.geeksforgeeks.org/problems/detect-cycle-in-a-directed-graph/1"
+      },
+      {
+        "id": "topological-sort-143",
+        "number": 143,
+        "title": "Topological Sort",
+        "url": "https://www.geeksforgeeks.org/problems/topological-sort/1"
+      },
+      {
+        "id": "number-of-islands-144",
+        "number": 144,
+        "title": "Number of Islands",
+        "url": "https://leetcode.com/problems/number-of-islands/"
+      },
+      {
+        "id": "dijkstra-s-shortest-path-algorithm-145",
+        "number": 145,
+        "title": "Dijkstra's Shortest Path Algorithm",
+        "url": "https://www.geeksforgeeks.org/problems/implementing-dijkstra-set-1-adjacency-matrix/1"
+      },
+      {
+        "id": "bellman-ford-algorithm-146",
+        "number": 146,
+        "title": "Bellman-Ford Algorithm",
+        "url": "https://www.geeksforgeeks.org/problems/distance-from-the-source-bellman-ford-algorithm/1"
+      },
+      {
+        "id": "floyd-warshall-algorithm-147",
+        "number": 147,
+        "title": "Floyd-Warshall Algorithm",
+        "url": "https://www.geeksforgeeks.org/problems/implementing-floyd-warshall2042/1"
+      },
+      {
+        "id": "n-queens-problem-148",
+        "number": 148,
+        "title": "N-Queens Problem",
+        "url": "https://leetcode.com/problems/n-queens/"
+      },
+      {
+        "id": "subset-sum-problem-149",
+        "number": 149,
+        "title": "Subset Sum Problem",
+        "url": "https://www.geeksforgeeks.org/problems/subset-sum-problem-1611555638/1"
+      },
+      {
+        "id": "coin-change-problem-minimum-coins-150",
+        "number": 150,
+        "title": "Coin Change Problem (Minimum Coins)",
+        "url": "https://leetcode.com/problems/coin-change/"
+      }
+    ]
+  }
+]

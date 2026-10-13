@@ -1,0 +1,405 @@
+{
+  "generated_at": "2026-09-30T06:39:55.669977+05:30",
+  "judge_image": "placement-cpp-judge:1.0.0",
+  "docker_fixtures": {
+    "cpp17_and_execution": {
+      "submission_id": 8298893,
+      "status": "PASSED",
+      "tests_passed": 1,
+      "tests_total": 1,
+      "score": 0,
+      "execution_time_ms": 3,
+      "safe_error_message": null
+    },
+    "wrong_answer": {
+      "submission_id": 8814834,
+      "status": "FAILED",
+      "tests_passed": 0,
+      "tests_total": 1,
+      "score": 0,
+      "execution_time_ms": 1,
+      "safe_error_message": null
+    },
+    "compile_error": {
+      "submission_id": 8363240,
+      "status": "COMPILE_ERROR",
+      "tests_passed": 0,
+      "tests_total": 1,
+      "score": 0,
+      "execution_time_ms": 6,
+      "safe_error_message": "[sandbox]:1:5: error: cannot declare ‘::main’ to be a global variable\n    1 | int main( {\n      |     ^~~~\n[sandbox]:1:12: error: expected primary-expression at end of input\n    1 | int main( {\n      |            ^\n[sandbox]:1:12: error: expected ‘}’ at end of input\n    1 | int main( {\n      |           ~^\n[sandbox]:1:12: error: expected ‘)’ at end of input\n    1 | int main( {\n      |         ~  ^\n      |            )"
+    },
+    "missing_include": {
+      "submission_id": 8241945,
+      "status": "COMPILE_ERROR",
+      "tests_passed": 0,
+      "tests_total": 1,
+      "score": 0,
+      "execution_time_ms": 6,
+      "safe_error_message": "[sandbox]:1:10: fatal error: header_that_does_not_exist.hpp: No such file or directory\n    1 | #include <header_that_does_not_exist.hpp>\n      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\ncompilation terminated."
+    },
+    "compiler_warnings": {
+      "submission_id": 8726283,
+      "status": "PASSED",
+      "tests_passed": 1,
+      "tests_total": 1,
+      "score": 0,
+      "execution_time_ms": 1,
+      "safe_error_message": null
+    },
+    "runtime_error": {
+      "submission_id": 8081925,
+      "status": "RUNTIME_ERROR",
+      "tests_passed": 0,
+      "tests_total": 1,
+      "score": 0,
+      "execution_time_ms": 4,
+      "safe_error_message": "The program terminated with a runtime error or resource violation."
+    },
+    "timeout": {
+      "submission_id": 8802764,
+      "status": "TIME_LIMIT",
+      "tests_passed": 0,
+      "tests_total": 1,
+      "score": 0,
+      "execution_time_ms": 2004,
+      "safe_error_message": "A test case exceeded the configured time limit."
+    },
+    "closed_pipe_timeout": {
+      "submission_id": 8990244,
+      "status": "TIME_LIMIT",
+      "tests_passed": 0,
+      "tests_total": 1,
+      "score": 0,
+      "execution_time_ms": 2002,
+      "safe_error_message": "A test case exceeded the configured time limit."
+    },
+    "memory_limit": {
+      "submission_id": 8254089,
+      "status": "RUNTIME_ERROR",
+      "tests_passed": 0,
+      "tests_total": 1,
+      "score": 0,
+      "execution_time_ms": 1,
+      "safe_error_message": "The program terminated with a runtime error or resource violation."
+    },
+    "stdout_limit": {
+      "submission_id": 8495726,
+      "status": "RUNTIME_ERROR",
+      "tests_passed": 0,
+      "tests_total": 1,
+      "score": 0,
+      "execution_time_ms": 1,
+      "safe_error_message": "The program exceeded the configured output limit."
+    },
+    "stderr_limit": {
+      "submission_id": 8379972,
+      "status": "RUNTIME_ERROR",
+      "tests_passed": 0,
+      "tests_total": 1,
+      "score": 0,
+      "execution_time_ms": 2,
+      "safe_error_message": "The program exceeded the configured output limit."
+    },
+    "process_limit": {
+      "submission_id": 8906325,
+      "status": "PASSED",
+      "tests_passed": 1,
+      "tests_total": 1,
+      "score": 0,
+      "execution_time_ms": 7,
+      "safe_error_message": null
+    },
+    "network_isolation": {
+      "submission_id": 8132992,
+      "status": "PASSED",
+      "tests_passed": 1,
+      "tests_total": 1,
+      "score": 0,
+      "execution_time_ms": 1,
+      "safe_error_message": null
+    },
+    "filesystem_isolation": {
+      "submission_id": 8507084,
+      "status": "PASSED",
+      "tests_passed": 1,
+      "tests_total": 1,
+      "score": 0,
+      "execution_time_ms": 4,
+      "safe_error_message": null
+    }
+  },
+  "checks": {
+    "docker_daemon": {
+      "pass": true,
+      "detail": "28.5.2"
+    },
+    "judge_image": {
+      "pass": true,
+      "detail": "linux/arm64"
+    },
+    "apple_silicon_compatibility": {
+      "pass": true,
+      "detail": "host=arm64, image=linux/arm64"
+    },
+    "native_architecture_compatibility": {
+      "pass": true,
+      "detail": "host=arm64, expected=arm64"
+    },
+    "cpp17_and_execution": {
+      "pass": true,
+      "status": "PASSED",
+      "safe_error_message": null
+    },
+    "wrong_answer": {
+      "pass": true,
+      "status": "FAILED",
+      "safe_error_message": null
+    },
+    "compile_error": {
+      "pass": true,
+      "status": "COMPILE_ERROR",
+      "safe_error_message": "[sandbox]:1:5: error: cannot declare ‘::main’ to be a global variable\n    1 | int main( {\n      |     ^~~~\n[sandbox]:1:12: error: expected primary-expression at end of input\n    1 | int main( {\n      |            ^\n[sandbox]:1:12: error: expected ‘}’ at end of input\n    1 | int main( {\n      |           ~^\n[sandbox]:1:12: error: expected ‘)’ at end of input\n    1 | int main( {\n      |         ~  ^\n      |            )"
+    },
+    "missing_include": {
+      "pass": true,
+      "status": "COMPILE_ERROR",
+      "safe_error_message": "[sandbox]:1:10: fatal error: header_that_does_not_exist.hpp: No such file or directory\n    1 | #include <header_that_does_not_exist.hpp>\n      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\ncompilation terminated."
+    },
+    "compiler_warnings": {
+      "pass": true,
+      "status": "PASSED",
+      "safe_error_message": null
+    },
+    "runtime_error": {
+      "pass": true,
+      "status": "RUNTIME_ERROR",
+      "safe_error_message": "The program terminated with a runtime error or resource violation."
+    },
+    "timeout": {
+      "pass": true,
+      "status": "TIME_LIMIT",
+      "safe_error_message": "A test case exceeded the configured time limit."
+    },
+    "closed_pipe_timeout": {
+      "pass": true,
+      "status": "TIME_LIMIT",
+      "safe_error_message": "A test case exceeded the configured time limit."
+    },
+    "memory_limit": {
+      "pass": true,
+      "status": "RUNTIME_ERROR",
+      "safe_error_message": "The program terminated with a runtime error or resource violation."
+    },
+    "stdout_limit": {
+      "pass": true,
+      "status": "RUNTIME_ERROR",
+      "safe_error_message": "The program exceeded the configured output limit."
+    },
+    "stderr_limit": {
+      "pass": true,
+      "status": "RUNTIME_ERROR",
+      "safe_error_message": "The program exceeded the configured output limit."
+    },
+    "process_limit": {
+      "pass": true,
+      "status": "PASSED",
+      "safe_error_message": null
+    },
+    "network_isolation": {
+      "pass": true,
+      "status": "PASSED",
+      "safe_error_message": null
+    },
+    "filesystem_isolation": {
+      "pass": true,
+      "status": "PASSED",
+      "safe_error_message": null
+    },
+    "judge_api_readiness": {
+      "pass": true,
+      "detail": "docker_is_ready() requires both a daemon and configured judge image."
+    },
+    "submission_authentication_ownership": {
+      "pass": true,
+      "detail": "Covered by route and service regression tests: authenticated principal is passed to submission creation; non-owners are denied result access."
+    },
+    "safe_result_endpoint": {
+      "pass": true,
+      "detail": "Result query returns allowlisted status fields only; source code, owner ID, attempt ID and hidden tests are excluded."
+    },
+    "worker_lifecycle": {
+      "pass": true,
+      "detail": "Worker claims with FOR UPDATE SKIP LOCKED, commits RUNNING before execution, writes a terminal state on exceptions, and recovers stale RUNNING rows."
+    },
+    "full_pytest": {
+      "pass": true,
+      "status": "PASS",
+      "return_code": 0,
+      "summary": [
+        "99 passed, 3 warnings in 14.93s"
+      ]
+    },
+    "container_cleanup": {
+      "pass": true,
+      "remaining_containers": []
+    },
+    "question_bank_unchanged": {
+      "pass": true,
+      "detail": "All question/content/review/history table hashes and expected counts match."
+    },
+    "historical_data_unchanged": {
+      "pass": true,
+      "detail": "Historical table counts match the pre-fixture snapshot."
+    }
+  },
+  "database": {
+    "question_bank_modified": false,
+    "historical_data_modified": false,
+    "before": {
+      "database": "placement_platform",
+      "table_hashes": {
+        "sources": "78863c2512eecc3d8d96c0cdfd2301d373886bf135c546e2f224f80c99b73f35",
+        "tracks": "c09114983f3a00f8deb6fd0ba856516616ead9a4d3e96d8d1396150e7f2a8aa5",
+        "topics": "9435dea9842e3f1535f7d4e2fcb22f3e8c397dd5144b50e15072ddc9d7c7803c",
+        "subtopics": "6da3fc413349dde610a1881e26244459350dde00bef3e3e9cff854280f7a1abd",
+        "questions": "fe53618540ebb9a85d73f619693965648e8576418ae49b09104669f6c84a4f5b",
+        "question_subtopics": "374f2f5241c2e318ca9da707ad67242263dbde9b2709afe187a9347d42f8e942",
+        "coding_questions": "a6960814cb3d119f5b5fdd1ac7ee34de8d02846323ec7d71509664fefd8fafd3",
+        "mcq_questions": "c2d9a84417062d5f803b85cf0e0331b2d5f165abe195928ddd216a9201c9f96f",
+        "mcq_options": "503b07ef6fccd87a038d3c3ed9277aeb8061cf4c7b209c9957ac74939b16a3f1",
+        "coding_test_cases": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "question_examples": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "question_reviews": "8476aa05b17bb265c248f74efb06f7a59eb40bcee42320a9ae1f599bd58566e1",
+        "duplicate_matches": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "question_reports": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "question_status_history": "1aacad8e6b46e48c5c8df28f8a27e7da0493878212978c8735d81982456851b0",
+        "users": "21d8bbf76bbe20c6fa89722205e5c43f1d9b59adb13f64c95467f062fac3cc4f",
+        "attempts": "23df2f525a9f1b7a57d38d74fed969d678ef2c53ec986c1285da8f4edda9a52a",
+        "attempt_answers": "c700609dd84b566070a3ee0e4a0942a91dfc553d2c0b693f83cc7b63abc4576a",
+        "mock_tests": "f1c415b3713aa6bac8576284e2d10ad4e8c3c16c88bab2a31688984a71ca4b8e",
+        "mock_test_questions": "27753f8fdbfd8aba041c0f377f8fb949e9b1a0b4ba57770f7fc9543768564270",
+        "coding_submissions": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "table_counts": {
+        "sources": 3,
+        "tracks": 3,
+        "topics": 40,
+        "subtopics": 492,
+        "questions": 2207,
+        "question_subtopics": 2207,
+        "coding_questions": 290,
+        "mcq_questions": 1917,
+        "mcq_options": 4141,
+        "coding_test_cases": 0,
+        "question_examples": 0,
+        "question_reviews": 305,
+        "duplicate_matches": 0,
+        "question_reports": 0,
+        "question_status_history": 320,
+        "users": 14,
+        "attempts": 4,
+        "attempt_answers": 7,
+        "mock_tests": 7,
+        "mock_test_questions": 35,
+        "coding_submissions": 0
+      },
+      "historical_counts": {
+        "users": 14,
+        "attempts": 4,
+        "attempt_answers": 7,
+        "mock_tests": 7,
+        "mock_test_questions": 35,
+        "coding_submissions": 0,
+        "question_reviews": 305,
+        "question_status_history": 320
+      },
+      "question_counts": {
+        "questions": 2207,
+        "MCQ": 1917,
+        "CODING": 290,
+        "PUBLISHED": 0
+      }
+    },
+    "after": {
+      "database": "placement_platform",
+      "table_hashes": {
+        "sources": "78863c2512eecc3d8d96c0cdfd2301d373886bf135c546e2f224f80c99b73f35",
+        "tracks": "c09114983f3a00f8deb6fd0ba856516616ead9a4d3e96d8d1396150e7f2a8aa5",
+        "topics": "9435dea9842e3f1535f7d4e2fcb22f3e8c397dd5144b50e15072ddc9d7c7803c",
+        "subtopics": "6da3fc413349dde610a1881e26244459350dde00bef3e3e9cff854280f7a1abd",
+        "questions": "fe53618540ebb9a85d73f619693965648e8576418ae49b09104669f6c84a4f5b",
+        "question_subtopics": "374f2f5241c2e318ca9da707ad67242263dbde9b2709afe187a9347d42f8e942",
+        "coding_questions": "a6960814cb3d119f5b5fdd1ac7ee34de8d02846323ec7d71509664fefd8fafd3",
+        "mcq_questions": "c2d9a84417062d5f803b85cf0e0331b2d5f165abe195928ddd216a9201c9f96f",
+        "mcq_options": "503b07ef6fccd87a038d3c3ed9277aeb8061cf4c7b209c9957ac74939b16a3f1",
+        "coding_test_cases": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "question_examples": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "question_reviews": "8476aa05b17bb265c248f74efb06f7a59eb40bcee42320a9ae1f599bd58566e1",
+        "duplicate_matches": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "question_reports": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "question_status_history": "1aacad8e6b46e48c5c8df28f8a27e7da0493878212978c8735d81982456851b0",
+        "users": "21d8bbf76bbe20c6fa89722205e5c43f1d9b59adb13f64c95467f062fac3cc4f",
+        "attempts": "23df2f525a9f1b7a57d38d74fed969d678ef2c53ec986c1285da8f4edda9a52a",
+        "attempt_answers": "c700609dd84b566070a3ee0e4a0942a91dfc553d2c0b693f83cc7b63abc4576a",
+        "mock_tests": "f1c415b3713aa6bac8576284e2d10ad4e8c3c16c88bab2a31688984a71ca4b8e",
+        "mock_test_questions": "27753f8fdbfd8aba041c0f377f8fb949e9b1a0b4ba57770f7fc9543768564270",
+        "coding_submissions": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "table_counts": {
+        "sources": 3,
+        "tracks": 3,
+        "topics": 40,
+        "subtopics": 492,
+        "questions": 2207,
+        "question_subtopics": 2207,
+        "coding_questions": 290,
+        "mcq_questions": 1917,
+        "mcq_options": 4141,
+        "coding_test_cases": 0,
+        "question_examples": 0,
+        "question_reviews": 305,
+        "duplicate_matches": 0,
+        "question_reports": 0,
+        "question_status_history": 320,
+        "users": 14,
+        "attempts": 4,
+        "attempt_answers": 7,
+        "mock_tests": 7,
+        "mock_test_questions": 35,
+        "coding_submissions": 0
+      },
+      "historical_counts": {
+        "users": 14,
+        "attempts": 4,
+        "attempt_answers": 7,
+        "mock_tests": 7,
+        "mock_test_questions": 35,
+        "coding_submissions": 0,
+        "question_reviews": 305,
+        "question_status_history": 320
+      },
+      "question_counts": {
+        "questions": 2207,
+        "MCQ": 1917,
+        "CODING": 290,
+        "PUBLISHED": 0
+      }
+    }
+  },
+  "security_configuration": {
+    "network_none": true,
+    "read_only_root": true,
+    "non_root_uid_gid": "10001:10001",
+    "capabilities_dropped": "ALL",
+    "no_new_privileges": true,
+    "container_memory": "256m",
+    "container_cpu": "1",
+    "container_pids": 32,
+    "stdout_bytes": 64000,
+    "stderr_bytes": 16000,
+    "attempt_timeout_is_separate": true,
+    "host_student_code_execution": false
+  },
+  "overall_pass": true
+}
