@@ -11,6 +11,10 @@ class LoginRequest(BaseModel):
     email: EmailStr
     password: str
 
+class GoogleCredentialRequest(BaseModel):
+    credential: str = Field(..., min_length=20, max_length=8192)
+    nonce: str = Field(..., min_length=16, max_length=128)
+
 class TokenResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"

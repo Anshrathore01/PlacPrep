@@ -1,4 +1,4 @@
-import type { AIRequest, AIResponse, AnalyticsSummary, Attempt, Company, Blueprint, MockTest, PlacoResponse, Question, QuestionListItem, SubjectTrack, User } from "./types";
+import type { AIRequest, AIResponse, AnalyticsSummary, Attempt, Company, Blueprint, MockTest, PlacoResponse, ProductDsaQuestion, Question, QuestionListItem, SubjectTrack, User } from "./types";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000";
 export class ApiError extends Error { constructor(public status: number, message: string) { super(message); } }
@@ -62,10 +62,14 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
 }
 export const api = {
   login: (body: { email: string; password: string }) => request<{ access_token: string }>("/auth/login", { method: "POST", body: JSON.stringify(body) }),
+  googleLogin: (body: { credential: string; nonce: string }) => request<{ access_token: string }>("/auth/google", { method: "POST", body: JSON.stringify(body) }),
+  googleNonce: () => request<{ nonce: string }>("/auth/google/nonce"),
+  linkGoogle: (body: { credential: string; nonce: string }) => request<User>("/auth/google/link", { method: "POST", body: JSON.stringify(body) }),
   register: (body: { email: string; password: string; display_name: string }) => request<User>("/auth/register", { method: "POST", body: JSON.stringify(body) }),
   me: () => request<User>("/auth/me"),
   questions: (params = "") => request<QuestionListItem[]>(`/questions${params}`),
   codingPractice: () => request<{ service_companies: string[]; sections: { title: string; problems: { id: string; number: number; title: string; url: string }[] }[]; solved_problem_ids: string[]; authenticated: boolean }>("/coding-practice/catalog"),
+  productDsaQuestions: () => request<{ questions: ProductDsaQuestion[]; total: number; completed: number; remaining: number }>("/coding-practice/product"),
   setCodingProblemSolved: (id: string, is_solved: boolean) => request<{ problem_id: string; is_solved: boolean }>(`/coding-practice/progress/${encodeURIComponent(id)}`, { method: "PUT", body: JSON.stringify({ is_solved }) }),
   question: (id: number) => request<Question>(`/questions/${id}`),
   mocks: (id: number) => request<MockTest & { questions?: Question[] }>(`/mock-tests/${id}`),

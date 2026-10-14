@@ -11,11 +11,37 @@ from app.database import engine
 router = APIRouter(prefix="/coding-practice", tags=["coding practice"])
 CATALOG = json.loads(Path(__file__).resolve().parents[1].joinpath("service_coding_questions.json").read_text())
 PROBLEM_IDS = {problem["id"] for section in CATALOG for problem in section["problems"]}
+PRODUCT_QUESTIONS = json.loads(Path(__file__).resolve().parents[1].joinpath("product_dsa_questions.json").read_text())
+PRODUCT_PROBLEM_IDS = {problem["id"] for problem in PRODUCT_QUESTIONS}
+PROBLEM_IDS.update(PRODUCT_PROBLEM_IDS)
 COMPANIES = ["TCS", "Infosys", "HCL Tech", "LTIMindtree"]
 
 
 class ProgressUpdate(BaseModel):
     is_solved: bool
+
+
+@router.get("/product")
+def get_product_questions(user: dict = Depends(get_current_user)):
+    """Return the shared product-company bank with this user's progress overlaid."""
+    with engine.connect() as connection:
+        completed_ids = set(connection.execute(text("""
+            SELECT problem_id FROM coding_practice_progress
+            WHERE user_id = :user_id AND is_solved = TRUE
+              AND problem_id LIKE 'product-dsa-%'
+        """), {"user_id": user["user_id"]}).scalars().all())
+
+    questions = [
+        {**question, "is_completed": question["id"] in completed_ids}
+        for question in PRODUCT_QUESTIONS
+    ]
+    completed_count = sum(question["is_completed"] for question in questions)
+    return {
+        "questions": questions,
+        "total": len(questions),
+        "completed": completed_count,
+        "remaining": len(questions) - completed_count,
+    }
 
 
 @router.get("/catalog")

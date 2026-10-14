@@ -1,4 +1,14 @@
 export type User = { user_id: number; email: string; display_name?: string | null; role: string; is_active: boolean; created_at?: string | null };
+export type ProductDsaQuestion = {
+  id: string;
+  question_number: number;
+  title: string;
+  topic: string;
+  difficulty: "Easy" | "Medium" | "Hard";
+  platform: "LeetCode" | "GeeksforGeeks";
+  url: string;
+  is_completed: boolean;
+};
 export type QuestionListItem = { question_id: number; title?: string | null; question_type: string; difficulty?: string | null };
 /** Canonical option payload. `option_key` remains the stable scoring key. */
 export type Option = {

@@ -19,6 +19,7 @@ export type AuthContextType = {
   status: AuthStatus;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
+  signInWithGoogle: (credential: string, nonce: string) => Promise<void>;
   signOut: () => void;
   refresh: () => Promise<void>;
 };
@@ -107,6 +108,12 @@ function AuthProvider({ children }: { children: ReactNode }) {
     [refresh],
   );
 
+  const signInWithGoogle = useCallback(async (credential: string, nonce: string) => {
+    const result = await api.googleLogin({ credential, nonce });
+    if (typeof window !== "undefined") localStorage.setItem("prepwise_token", result.access_token);
+    await refresh();
+  }, [refresh]);
+
   const signOut = useCallback(() => {
     if (typeof window !== "undefined") {
       localStorage.removeItem("prepwise_token");
@@ -124,6 +131,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
         status,
         loading,
         signIn,
+        signInWithGoogle,
         signOut,
         refresh,
       }}

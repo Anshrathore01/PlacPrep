@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FormEvent, useEffect, useState, Suspense } from "react";
+import { FormEvent, useCallback, useEffect, useState, Suspense } from "react";
 import { Sparkles } from "lucide-react";
 import { useAuth } from "@/components/providers";
 import { ApiError } from "@/lib/api";
+import { GoogleSignIn } from "@/components/google-sign-in";
 
 function LoginForm() {
-  const { signIn, user, loading } = useAuth();
+  const { signIn, signInWithGoogle, user, loading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
@@ -44,11 +45,25 @@ function LoginForm() {
     }
   };
 
+  const googleLogin = useCallback(async (credential: string, nonce: string) => {
+    setError("");
+    try {
+      await signInWithGoogle(credential, nonce);
+      router.replace(destination);
+    } catch (cause) {
+      setError(cause instanceof ApiError ? cause.message : "Google sign-in failed. Please try again.");
+    }
+  }, [destination, router, signInWithGoogle]);
+
   return (
     <AuthFrame
       title="Welcome back"
       subtitle="Continue your placement preparation journey."
     >
+      <div className="mb-5">
+        <GoogleSignIn disabled={busy} onCredential={googleLogin} />
+      </div>
+      <div className="mb-5 flex items-center gap-3 text-xs text-slate-400"><span className="h-px flex-1 bg-slate-200" />OR CONTINUE WITH EMAIL<span className="h-px flex-1 bg-slate-200" /></div>
       <form onSubmit={submit} className="space-y-4">
         <label className="block text-sm font-medium text-slate-700">
           Email
@@ -75,6 +90,7 @@ function LoginForm() {
         {error && (
           <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-600">
             {error}
+            {error.includes("account linking page") && <Link href="/account/link-google" className="ml-1 font-semibold underline">Link Google</Link>}
           </div>
         )}
         <button

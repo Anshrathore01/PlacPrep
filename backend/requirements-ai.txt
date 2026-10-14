@@ -1,1 +1,2 @@
 google-genai==2.25.0
+google-auth==2.54.0

@@ -1,14 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useState, useEffect, Suspense } from "react";
+import { FormEvent, useCallback, useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/components/providers";
 import { api, ApiError } from "@/lib/api";
 import { Sparkles } from "lucide-react";
+import { GoogleSignIn } from "@/components/google-sign-in";
 
 function RegisterForm() {
-  const { user, loading } = useAuth();
+  const { user, loading, signInWithGoogle } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -56,6 +57,17 @@ function RegisterForm() {
     }
   };
 
+  const googleSignup = useCallback(async (credential: string, nonce: string) => {
+    setError("");
+    try {
+      await signInWithGoogle(credential, nonce);
+      const destination = next?.startsWith("/") && !next.startsWith("//") ? next : "/dashboard";
+      router.replace(destination);
+    } catch (cause) {
+      setError(cause instanceof ApiError ? cause.message : "Google sign-up failed. Please try again.");
+    }
+  }, [next, router, signInWithGoogle]);
+
   return (
     <main className="grid min-h-screen place-items-center bg-slate-50 px-5 py-10">
       <div className="w-full max-w-md">
@@ -75,7 +87,11 @@ function RegisterForm() {
             Start a focused path to placement readiness.
           </p>
 
-          <form onSubmit={submit} className="mt-7 space-y-4">
+          <div className="mt-7 mb-5">
+            <GoogleSignIn disabled={busy} onCredential={googleSignup} />
+          </div>
+          <div className="mb-5 flex items-center gap-3 text-xs text-slate-400"><span className="h-px flex-1 bg-slate-200" />OR CREATE WITH EMAIL<span className="h-px flex-1 bg-slate-200" /></div>
+          <form onSubmit={submit} className="space-y-4">
             <label className="block text-sm font-medium text-slate-700">
               Display name
               <input

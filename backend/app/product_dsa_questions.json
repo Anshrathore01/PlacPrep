@@ -1,0 +1,1802 @@
+[
+  {
+    "id": "product-dsa-001",
+    "question_number": 1,
+    "title": "Two Sum",
+    "topic": "Arrays & Hashing",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/two-sum/"
+  },
+  {
+    "id": "product-dsa-002",
+    "question_number": 2,
+    "title": "Best Time to Buy and Sell Stock",
+    "topic": "Greedy",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/"
+  },
+  {
+    "id": "product-dsa-003",
+    "question_number": 3,
+    "title": "Contains Duplicate",
+    "topic": "Arrays & Hashing",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/contains-duplicate/"
+  },
+  {
+    "id": "product-dsa-004",
+    "question_number": 4,
+    "title": "Product of Array Except Self",
+    "topic": "Arrays & Hashing",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/product-of-array-except-self/"
+  },
+  {
+    "id": "product-dsa-005",
+    "question_number": 5,
+    "title": "Maximum Subarray",
+    "topic": "Dynamic Programming",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/maximum-subarray/"
+  },
+  {
+    "id": "product-dsa-006",
+    "question_number": 6,
+    "title": "Maximum Product Subarray",
+    "topic": "Dynamic Programming",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/maximum-product-subarray/"
+  },
+  {
+    "id": "product-dsa-007",
+    "question_number": 7,
+    "title": "Find Minimum in Rotated Sorted Array",
+    "topic": "Binary Search",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/"
+  },
+  {
+    "id": "product-dsa-008",
+    "question_number": 8,
+    "title": "Search in Rotated Sorted Array",
+    "topic": "Binary Search",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/search-in-rotated-sorted-array/"
+  },
+  {
+    "id": "product-dsa-009",
+    "question_number": 9,
+    "title": "3Sum",
+    "topic": "Two Pointers",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/3sum/"
+  },
+  {
+    "id": "product-dsa-010",
+    "question_number": 10,
+    "title": "Container With Most Water",
+    "topic": "Two Pointers",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/container-with-most-water/"
+  },
+  {
+    "id": "product-dsa-011",
+    "question_number": 11,
+    "title": "Merge Intervals",
+    "topic": "Intervals",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/merge-intervals/"
+  },
+  {
+    "id": "product-dsa-012",
+    "question_number": 12,
+    "title": "Insert Interval",
+    "topic": "Intervals",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/insert-interval/"
+  },
+  {
+    "id": "product-dsa-013",
+    "question_number": 13,
+    "title": "Non-overlapping Intervals",
+    "topic": "Intervals",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/non-overlapping-intervals/"
+  },
+  {
+    "id": "product-dsa-014",
+    "question_number": 14,
+    "title": "Rotate Image",
+    "topic": "Arrays & Hashing",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/rotate-image/"
+  },
+  {
+    "id": "product-dsa-015",
+    "question_number": 15,
+    "title": "Spiral Matrix",
+    "topic": "Arrays & Hashing",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/spiral-matrix/"
+  },
+  {
+    "id": "product-dsa-016",
+    "question_number": 16,
+    "title": "Set Matrix Zeroes",
+    "topic": "Arrays & Hashing",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/set-matrix-zeroes/"
+  },
+  {
+    "id": "product-dsa-017",
+    "question_number": 17,
+    "title": "Group Anagrams",
+    "topic": "Arrays & Hashing",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/group-anagrams/"
+  },
+  {
+    "id": "product-dsa-018",
+    "question_number": 18,
+    "title": "Top K Frequent Elements",
+    "topic": "Heaps & Priority Queues",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/top-k-frequent-elements/"
+  },
+  {
+    "id": "product-dsa-019",
+    "question_number": 19,
+    "title": "Encode and Decode Strings",
+    "topic": "Strings",
+    "difficulty": "Medium",
+    "platform": "GeeksforGeeks",
+    "url": "https://www.geeksforgeeks.org/problems/encode-and-decode-strings/1"
+  },
+  {
+    "id": "product-dsa-020",
+    "question_number": 20,
+    "title": "Longest Consecutive Sequence",
+    "topic": "Arrays & Hashing",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/longest-consecutive-sequence/"
+  },
+  {
+    "id": "product-dsa-021",
+    "question_number": 21,
+    "title": "Subarray Sum Equals K",
+    "topic": "Prefix Sums",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/subarray-sum-equals-k/"
+  },
+  {
+    "id": "product-dsa-022",
+    "question_number": 22,
+    "title": "Sort Colors",
+    "topic": "Sorting",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/sort-colors/"
+  },
+  {
+    "id": "product-dsa-023",
+    "question_number": 23,
+    "title": "Majority Element",
+    "topic": "Arrays & Hashing",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/majority-element/"
+  },
+  {
+    "id": "product-dsa-024",
+    "question_number": 24,
+    "title": "Next Permutation",
+    "topic": "Sorting",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/next-permutation/"
+  },
+  {
+    "id": "product-dsa-025",
+    "question_number": 25,
+    "title": "Trapping Rain Water",
+    "topic": "Two Pointers",
+    "difficulty": "Hard",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/trapping-rain-water/"
+  },
+  {
+    "id": "product-dsa-026",
+    "question_number": 26,
+    "title": "Valid Palindrome",
+    "topic": "Two Pointers",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/valid-palindrome/"
+  },
+  {
+    "id": "product-dsa-027",
+    "question_number": 27,
+    "title": "Two Sum II - Input Array Is Sorted",
+    "topic": "Two Pointers",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/"
+  },
+  {
+    "id": "product-dsa-028",
+    "question_number": 28,
+    "title": "4Sum",
+    "topic": "Two Pointers",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/4sum/"
+  },
+  {
+    "id": "product-dsa-029",
+    "question_number": 29,
+    "title": "Remove Duplicates from Sorted Array",
+    "topic": "Two Pointers",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/remove-duplicates-from-sorted-array/"
+  },
+  {
+    "id": "product-dsa-030",
+    "question_number": 30,
+    "title": "Move Zeroes",
+    "topic": "Two Pointers",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/move-zeroes/"
+  },
+  {
+    "id": "product-dsa-031",
+    "question_number": 31,
+    "title": "Squares of a Sorted Array",
+    "topic": "Two Pointers",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/squares-of-a-sorted-array/"
+  },
+  {
+    "id": "product-dsa-032",
+    "question_number": 32,
+    "title": "Boats to Save People",
+    "topic": "Two Pointers",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/boats-to-save-people/"
+  },
+  {
+    "id": "product-dsa-033",
+    "question_number": 33,
+    "title": "Longest Substring Without Repeating Characters",
+    "topic": "Sliding Window",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/longest-substring-without-repeating-characters/"
+  },
+  {
+    "id": "product-dsa-034",
+    "question_number": 34,
+    "title": "Longest Repeating Character Replacement",
+    "topic": "Sliding Window",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/longest-repeating-character-replacement/"
+  },
+  {
+    "id": "product-dsa-035",
+    "question_number": 35,
+    "title": "Permutation in String",
+    "topic": "Sliding Window",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/permutation-in-string/"
+  },
+  {
+    "id": "product-dsa-036",
+    "question_number": 36,
+    "title": "Minimum Window Substring",
+    "topic": "Sliding Window",
+    "difficulty": "Hard",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/minimum-window-substring/"
+  },
+  {
+    "id": "product-dsa-037",
+    "question_number": 37,
+    "title": "Sliding Window Maximum",
+    "topic": "Sliding Window",
+    "difficulty": "Hard",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/sliding-window-maximum/"
+  },
+  {
+    "id": "product-dsa-038",
+    "question_number": 38,
+    "title": "Max Consecutive Ones III",
+    "topic": "Sliding Window",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/max-consecutive-ones-iii/"
+  },
+  {
+    "id": "product-dsa-039",
+    "question_number": 39,
+    "title": "Fruit Into Baskets",
+    "topic": "Sliding Window",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/fruit-into-baskets/"
+  },
+  {
+    "id": "product-dsa-040",
+    "question_number": 40,
+    "title": "Subarrays with K Different Integers",
+    "topic": "Sliding Window",
+    "difficulty": "Hard",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/subarrays-with-k-different-integers/"
+  },
+  {
+    "id": "product-dsa-041",
+    "question_number": 41,
+    "title": "Minimum Size Subarray Sum",
+    "topic": "Sliding Window",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/minimum-size-subarray-sum/"
+  },
+  {
+    "id": "product-dsa-042",
+    "question_number": 42,
+    "title": "Find All Anagrams in a String",
+    "topic": "Sliding Window",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/find-all-anagrams-in-a-string/"
+  },
+  {
+    "id": "product-dsa-043",
+    "question_number": 43,
+    "title": "Grumpy Bookstore Owner",
+    "topic": "Sliding Window",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/grumpy-bookstore-owner/"
+  },
+  {
+    "id": "product-dsa-044",
+    "question_number": 44,
+    "title": "Valid Anagram",
+    "topic": "Strings",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/valid-anagram/"
+  },
+  {
+    "id": "product-dsa-045",
+    "question_number": 45,
+    "title": "Valid Parentheses",
+    "topic": "Stacks & Queues",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/valid-parentheses/"
+  },
+  {
+    "id": "product-dsa-046",
+    "question_number": 46,
+    "title": "Longest Common Prefix",
+    "topic": "Strings",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/longest-common-prefix/"
+  },
+  {
+    "id": "product-dsa-047",
+    "question_number": 47,
+    "title": "String to Integer (atoi)",
+    "topic": "Strings",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/string-to-integer-atoi/"
+  },
+  {
+    "id": "product-dsa-048",
+    "question_number": 48,
+    "title": "Find the Index of the First Occurrence in a String",
+    "topic": "Strings",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/"
+  },
+  {
+    "id": "product-dsa-049",
+    "question_number": 49,
+    "title": "Longest Palindromic Substring",
+    "topic": "Strings",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/longest-palindromic-substring/"
+  },
+  {
+    "id": "product-dsa-050",
+    "question_number": 50,
+    "title": "Palindromic Substrings",
+    "topic": "Strings",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/palindromic-substrings/"
+  },
+  {
+    "id": "product-dsa-051",
+    "question_number": 51,
+    "title": "Reverse Words in a String",
+    "topic": "Strings",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/reverse-words-in-a-string/"
+  },
+  {
+    "id": "product-dsa-052",
+    "question_number": 52,
+    "title": "Isomorphic Strings",
+    "topic": "Strings",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/isomorphic-strings/"
+  },
+  {
+    "id": "product-dsa-053",
+    "question_number": 53,
+    "title": "Text Justification",
+    "topic": "Strings",
+    "difficulty": "Hard",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/text-justification/"
+  },
+  {
+    "id": "product-dsa-054",
+    "question_number": 54,
+    "title": "Integer to Roman",
+    "topic": "Strings",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/integer-to-roman/"
+  },
+  {
+    "id": "product-dsa-055",
+    "question_number": 55,
+    "title": "Roman to Integer",
+    "topic": "Strings",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/roman-to-integer/"
+  },
+  {
+    "id": "product-dsa-056",
+    "question_number": 56,
+    "title": "Minimum Add to Make Parentheses Valid",
+    "topic": "Stacks & Queues",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/minimum-add-to-make-parentheses-valid/"
+  },
+  {
+    "id": "product-dsa-057",
+    "question_number": 57,
+    "title": "Implement Trie (Prefix Tree)",
+    "topic": "Tries",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/implement-trie-prefix-tree/"
+  },
+  {
+    "id": "product-dsa-058",
+    "question_number": 58,
+    "title": "Design Add and Search Words Data Structure",
+    "topic": "Tries",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/design-add-and-search-words-data-structure/"
+  },
+  {
+    "id": "product-dsa-059",
+    "question_number": 59,
+    "title": "Word Search II",
+    "topic": "Tries",
+    "difficulty": "Hard",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/word-search-ii/"
+  },
+  {
+    "id": "product-dsa-060",
+    "question_number": 60,
+    "title": "Maximum XOR of Two Numbers in an Array",
+    "topic": "Bit Manipulation",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/maximum-xor-of-two-numbers-in-an-array/"
+  },
+  {
+    "id": "product-dsa-061",
+    "question_number": 61,
+    "title": "Replace Words",
+    "topic": "Tries",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/replace-words/"
+  },
+  {
+    "id": "product-dsa-062",
+    "question_number": 62,
+    "title": "Longest Word in Dictionary",
+    "topic": "Tries",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/longest-word-in-dictionary/"
+  },
+  {
+    "id": "product-dsa-063",
+    "question_number": 63,
+    "title": "Extra Characters in a String",
+    "topic": "Dynamic Programming",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/extra-characters-in-a-string/"
+  },
+  {
+    "id": "product-dsa-064",
+    "question_number": 64,
+    "title": "Binary Search",
+    "topic": "Binary Search",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/binary-search/"
+  },
+  {
+    "id": "product-dsa-065",
+    "question_number": 65,
+    "title": "Search a 2D Matrix",
+    "topic": "Binary Search",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/search-a-2d-matrix/"
+  },
+  {
+    "id": "product-dsa-066",
+    "question_number": 66,
+    "title": "Koko Eating Bananas",
+    "topic": "Binary Search",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/koko-eating-bananas/"
+  },
+  {
+    "id": "product-dsa-067",
+    "question_number": 67,
+    "title": "Find Peak Element",
+    "topic": "Binary Search",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/find-peak-element/"
+  },
+  {
+    "id": "product-dsa-068",
+    "question_number": 68,
+    "title": "Search Insert Position",
+    "topic": "Binary Search",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/search-insert-position/"
+  },
+  {
+    "id": "product-dsa-069",
+    "question_number": 69,
+    "title": "Find First and Last Position of Element in Sorted Array",
+    "topic": "Binary Search",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/"
+  },
+  {
+    "id": "product-dsa-070",
+    "question_number": 70,
+    "title": "Capacity To Ship Packages Within D Days",
+    "topic": "Binary Search",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/"
+  },
+  {
+    "id": "product-dsa-071",
+    "question_number": 71,
+    "title": "Median of Two Sorted Arrays",
+    "topic": "Binary Search",
+    "difficulty": "Hard",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/median-of-two-sorted-arrays/"
+  },
+  {
+    "id": "product-dsa-072",
+    "question_number": 72,
+    "title": "Split Array Largest Sum",
+    "topic": "Binary Search",
+    "difficulty": "Hard",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/split-array-largest-sum/"
+  },
+  {
+    "id": "product-dsa-073",
+    "question_number": 73,
+    "title": "Single Element in a Sorted Array",
+    "topic": "Binary Search",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/single-element-in-a-sorted-array/"
+  },
+  {
+    "id": "product-dsa-074",
+    "question_number": 74,
+    "title": "Aggressive Cows",
+    "topic": "Binary Search",
+    "difficulty": "Medium",
+    "platform": "GeeksforGeeks",
+    "url": "https://www.geeksforgeeks.org/problems/aggressive-cows/1"
+  },
+  {
+    "id": "product-dsa-075",
+    "question_number": 75,
+    "title": "Allocate Minimum Pages",
+    "topic": "Binary Search",
+    "difficulty": "Medium",
+    "platform": "GeeksforGeeks",
+    "url": "https://www.geeksforgeeks.org/problems/allocate-minimum-number-of-pages0937/1"
+  },
+  {
+    "id": "product-dsa-076",
+    "question_number": 76,
+    "title": "Find K Closest Elements",
+    "topic": "Binary Search",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/find-k-closest-elements/"
+  },
+  {
+    "id": "product-dsa-077",
+    "question_number": 77,
+    "title": "Time Based Key-Value Store",
+    "topic": "Binary Search",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/time-based-key-value-store/"
+  },
+  {
+    "id": "product-dsa-078",
+    "question_number": 78,
+    "title": "Find Minimum in Rotated Sorted Array II",
+    "topic": "Binary Search",
+    "difficulty": "Hard",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array-ii/"
+  },
+  {
+    "id": "product-dsa-079",
+    "question_number": 79,
+    "title": "Reverse Linked List",
+    "topic": "Linked Lists",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/reverse-linked-list/"
+  },
+  {
+    "id": "product-dsa-080",
+    "question_number": 80,
+    "title": "Merge Two Sorted Lists",
+    "topic": "Linked Lists",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/merge-two-sorted-lists/"
+  },
+  {
+    "id": "product-dsa-081",
+    "question_number": 81,
+    "title": "Reorder List",
+    "topic": "Linked Lists",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/reorder-list/"
+  },
+  {
+    "id": "product-dsa-082",
+    "question_number": 82,
+    "title": "Remove Nth Node From End of List",
+    "topic": "Linked Lists",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/remove-nth-node-from-end-of-list/"
+  },
+  {
+    "id": "product-dsa-083",
+    "question_number": 83,
+    "title": "Copy List with Random Pointer",
+    "topic": "Linked Lists",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/copy-list-with-random-pointer/"
+  },
+  {
+    "id": "product-dsa-084",
+    "question_number": 84,
+    "title": "Add Two Numbers",
+    "topic": "Linked Lists",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/add-two-numbers/"
+  },
+  {
+    "id": "product-dsa-085",
+    "question_number": 85,
+    "title": "Linked List Cycle",
+    "topic": "Linked Lists",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/linked-list-cycle/"
+  },
+  {
+    "id": "product-dsa-086",
+    "question_number": 86,
+    "title": "Linked List Cycle II",
+    "topic": "Linked Lists",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/linked-list-cycle-ii/"
+  },
+  {
+    "id": "product-dsa-087",
+    "question_number": 87,
+    "title": "Find the Duplicate Number",
+    "topic": "Arrays & Hashing",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/find-the-duplicate-number/"
+  },
+  {
+    "id": "product-dsa-088",
+    "question_number": 88,
+    "title": "LRU Cache",
+    "topic": "Linked Lists",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/lru-cache/"
+  },
+  {
+    "id": "product-dsa-089",
+    "question_number": 89,
+    "title": "LFU Cache",
+    "topic": "Linked Lists",
+    "difficulty": "Hard",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/lfu-cache/"
+  },
+  {
+    "id": "product-dsa-090",
+    "question_number": 90,
+    "title": "Merge k Sorted Lists",
+    "topic": "Heaps & Priority Queues",
+    "difficulty": "Hard",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/merge-k-sorted-lists/"
+  },
+  {
+    "id": "product-dsa-091",
+    "question_number": 91,
+    "title": "Reverse Nodes in k-Group",
+    "topic": "Linked Lists",
+    "difficulty": "Hard",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/reverse-nodes-in-k-group/"
+  },
+  {
+    "id": "product-dsa-092",
+    "question_number": 92,
+    "title": "Palindrome Linked List",
+    "topic": "Linked Lists",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/palindrome-linked-list/"
+  },
+  {
+    "id": "product-dsa-093",
+    "question_number": 93,
+    "title": "Intersection of Two Linked Lists",
+    "topic": "Linked Lists",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/intersection-of-two-linked-lists/"
+  },
+  {
+    "id": "product-dsa-094",
+    "question_number": 94,
+    "title": "Flattening a Linked List",
+    "topic": "Linked Lists",
+    "difficulty": "Medium",
+    "platform": "GeeksforGeeks",
+    "url": "https://www.geeksforgeeks.org/problems/flattening-a-linked-list/1"
+  },
+  {
+    "id": "product-dsa-095",
+    "question_number": 95,
+    "title": "Sort List",
+    "topic": "Linked Lists",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/sort-list/"
+  },
+  {
+    "id": "product-dsa-096",
+    "question_number": 96,
+    "title": "Min Stack",
+    "topic": "Stacks & Queues",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/min-stack/"
+  },
+  {
+    "id": "product-dsa-097",
+    "question_number": 97,
+    "title": "Evaluate Reverse Polish Notation",
+    "topic": "Stacks & Queues",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/evaluate-reverse-polish-notation/"
+  },
+  {
+    "id": "product-dsa-098",
+    "question_number": 98,
+    "title": "Generate Parentheses",
+    "topic": "Recursion & Backtracking",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/generate-parentheses/"
+  },
+  {
+    "id": "product-dsa-099",
+    "question_number": 99,
+    "title": "Daily Temperatures",
+    "topic": "Monotonic Stack",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/daily-temperatures/"
+  },
+  {
+    "id": "product-dsa-100",
+    "question_number": 100,
+    "title": "Car Fleet",
+    "topic": "Monotonic Stack",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/car-fleet/"
+  },
+  {
+    "id": "product-dsa-101",
+    "question_number": 101,
+    "title": "Largest Rectangle in Histogram",
+    "topic": "Monotonic Stack",
+    "difficulty": "Hard",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/largest-rectangle-in-histogram/"
+  },
+  {
+    "id": "product-dsa-102",
+    "question_number": 102,
+    "title": "Maximal Rectangle",
+    "topic": "Stacks & Queues",
+    "difficulty": "Hard",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/maximal-rectangle/"
+  },
+  {
+    "id": "product-dsa-103",
+    "question_number": 103,
+    "title": "Online Stock Span",
+    "topic": "Monotonic Stack",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/online-stock-span/"
+  },
+  {
+    "id": "product-dsa-104",
+    "question_number": 104,
+    "title": "Asteroid Collision",
+    "topic": "Stacks & Queues",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/asteroid-collision/"
+  },
+  {
+    "id": "product-dsa-105",
+    "question_number": 105,
+    "title": "Simplify Path",
+    "topic": "Stacks & Queues",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/simplify-path/"
+  },
+  {
+    "id": "product-dsa-106",
+    "question_number": 106,
+    "title": "Decode String",
+    "topic": "Stacks & Queues",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/decode-string/"
+  },
+  {
+    "id": "product-dsa-107",
+    "question_number": 107,
+    "title": "Implement Queue using Stacks",
+    "topic": "Stacks & Queues",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/implement-queue-using-stacks/"
+  },
+  {
+    "id": "product-dsa-108",
+    "question_number": 108,
+    "title": "Implement Stack using Queues",
+    "topic": "Stacks & Queues",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/implement-stack-using-queues/"
+  },
+  {
+    "id": "product-dsa-109",
+    "question_number": 109,
+    "title": "Next Greater Element I",
+    "topic": "Monotonic Stack",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/next-greater-element-i/"
+  },
+  {
+    "id": "product-dsa-110",
+    "question_number": 110,
+    "title": "Next Greater Element II",
+    "topic": "Monotonic Stack",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/next-greater-element-ii/"
+  },
+  {
+    "id": "product-dsa-111",
+    "question_number": 111,
+    "title": "Rotting Oranges",
+    "topic": "Graphs",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/rotting-oranges/"
+  },
+  {
+    "id": "product-dsa-112",
+    "question_number": 112,
+    "title": "Celebrity Problem",
+    "topic": "Stacks & Queues",
+    "difficulty": "Medium",
+    "platform": "GeeksforGeeks",
+    "url": "https://www.geeksforgeeks.org/problems/the-celebrity-problem/1"
+  },
+  {
+    "id": "product-dsa-113",
+    "question_number": 113,
+    "title": "Task Scheduler",
+    "topic": "Greedy",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/task-scheduler/"
+  },
+  {
+    "id": "product-dsa-114",
+    "question_number": 114,
+    "title": "Invert Binary Tree",
+    "topic": "Trees & BSTs",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/invert-binary-tree/"
+  },
+  {
+    "id": "product-dsa-115",
+    "question_number": 115,
+    "title": "Maximum Depth of Binary Tree",
+    "topic": "Trees & BSTs",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/maximum-depth-of-binary-tree/"
+  },
+  {
+    "id": "product-dsa-116",
+    "question_number": 116,
+    "title": "Diameter of Binary Tree",
+    "topic": "Trees & BSTs",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/diameter-of-binary-tree/"
+  },
+  {
+    "id": "product-dsa-117",
+    "question_number": 117,
+    "title": "Balanced Binary Tree",
+    "topic": "Trees & BSTs",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/balanced-binary-tree/"
+  },
+  {
+    "id": "product-dsa-118",
+    "question_number": 118,
+    "title": "Same Tree",
+    "topic": "Trees & BSTs",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/same-tree/"
+  },
+  {
+    "id": "product-dsa-119",
+    "question_number": 119,
+    "title": "Subtree of Another Tree",
+    "topic": "Trees & BSTs",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/subtree-of-another-tree/"
+  },
+  {
+    "id": "product-dsa-120",
+    "question_number": 120,
+    "title": "Lowest Common Ancestor of a Binary Search Tree",
+    "topic": "Trees & BSTs",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/"
+  },
+  {
+    "id": "product-dsa-121",
+    "question_number": 121,
+    "title": "Lowest Common Ancestor of a Binary Tree",
+    "topic": "Trees & BSTs",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/"
+  },
+  {
+    "id": "product-dsa-122",
+    "question_number": 122,
+    "title": "Binary Tree Level Order Traversal",
+    "topic": "Trees & BSTs",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/binary-tree-level-order-traversal/"
+  },
+  {
+    "id": "product-dsa-123",
+    "question_number": 123,
+    "title": "Binary Tree Right Side View",
+    "topic": "Trees & BSTs",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/binary-tree-right-side-view/"
+  },
+  {
+    "id": "product-dsa-124",
+    "question_number": 124,
+    "title": "Count Good Nodes in Binary Tree",
+    "topic": "Trees & BSTs",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/count-good-nodes-in-binary-tree/"
+  },
+  {
+    "id": "product-dsa-125",
+    "question_number": 125,
+    "title": "Validate Binary Search Tree",
+    "topic": "Trees & BSTs",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/validate-binary-search-tree/"
+  },
+  {
+    "id": "product-dsa-126",
+    "question_number": 126,
+    "title": "Kth Smallest Element in a BST",
+    "topic": "Trees & BSTs",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/kth-smallest-element-in-a-bst/"
+  },
+  {
+    "id": "product-dsa-127",
+    "question_number": 127,
+    "title": "Construct Binary Tree from Preorder and Inorder Traversal",
+    "topic": "Trees & BSTs",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/"
+  },
+  {
+    "id": "product-dsa-128",
+    "question_number": 128,
+    "title": "Binary Tree Maximum Path Sum",
+    "topic": "Trees & BSTs",
+    "difficulty": "Hard",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/binary-tree-maximum-path-sum/"
+  },
+  {
+    "id": "product-dsa-129",
+    "question_number": 129,
+    "title": "Serialize and Deserialize Binary Tree",
+    "topic": "Trees & BSTs",
+    "difficulty": "Hard",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/serialize-and-deserialize-binary-tree/"
+  },
+  {
+    "id": "product-dsa-130",
+    "question_number": 130,
+    "title": "Populating Next Right Pointers in Each Node",
+    "topic": "Trees & BSTs",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/populating-next-right-pointers-in-each-node/"
+  },
+  {
+    "id": "product-dsa-131",
+    "question_number": 131,
+    "title": "Path Sum II",
+    "topic": "Trees & BSTs",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/path-sum-ii/"
+  },
+  {
+    "id": "product-dsa-132",
+    "question_number": 132,
+    "title": "Path Sum III",
+    "topic": "Trees & BSTs",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/path-sum-iii/"
+  },
+  {
+    "id": "product-dsa-133",
+    "question_number": 133,
+    "title": "Flatten Binary Tree to Linked List",
+    "topic": "Trees & BSTs",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/flatten-binary-tree-to-linked-list/"
+  },
+  {
+    "id": "product-dsa-134",
+    "question_number": 134,
+    "title": "Binary Tree Zigzag Level Order Traversal",
+    "topic": "Trees & BSTs",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/"
+  },
+  {
+    "id": "product-dsa-135",
+    "question_number": 135,
+    "title": "Vertical Order Traversal of a Binary Tree",
+    "topic": "Trees & BSTs",
+    "difficulty": "Hard",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/"
+  },
+  {
+    "id": "product-dsa-136",
+    "question_number": 136,
+    "title": "Kth Largest Element in a Stream",
+    "topic": "Heaps & Priority Queues",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/kth-largest-element-in-a-stream/"
+  },
+  {
+    "id": "product-dsa-137",
+    "question_number": 137,
+    "title": "Last Stone Weight",
+    "topic": "Heaps & Priority Queues",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/last-stone-weight/"
+  },
+  {
+    "id": "product-dsa-138",
+    "question_number": 138,
+    "title": "K Closest Points to Origin",
+    "topic": "Heaps & Priority Queues",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/k-closest-points-to-origin/"
+  },
+  {
+    "id": "product-dsa-139",
+    "question_number": 139,
+    "title": "Kth Largest Element in an Array",
+    "topic": "Heaps & Priority Queues",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/kth-largest-element-in-an-array/"
+  },
+  {
+    "id": "product-dsa-140",
+    "question_number": 140,
+    "title": "Design Twitter",
+    "topic": "Heaps & Priority Queues",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/design-twitter/"
+  },
+  {
+    "id": "product-dsa-141",
+    "question_number": 141,
+    "title": "Find Median from Data Stream",
+    "topic": "Heaps & Priority Queues",
+    "difficulty": "Hard",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/find-median-from-data-stream/"
+  },
+  {
+    "id": "product-dsa-142",
+    "question_number": 142,
+    "title": "Reorganize String",
+    "topic": "Heaps & Priority Queues",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/reorganize-string/"
+  },
+  {
+    "id": "product-dsa-143",
+    "question_number": 143,
+    "title": "Smallest Range Covering Elements from K Lists",
+    "topic": "Heaps & Priority Queues",
+    "difficulty": "Hard",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/"
+  },
+  {
+    "id": "product-dsa-144",
+    "question_number": 144,
+    "title": "Min Cost to Connect Ropes",
+    "topic": "Heaps & Priority Queues",
+    "difficulty": "Medium",
+    "platform": "GeeksforGeeks",
+    "url": "https://www.geeksforgeeks.org/problems/minimum-cost-of-ropes-1587115620/1"
+  },
+  {
+    "id": "product-dsa-145",
+    "question_number": 145,
+    "title": "Process Tasks Using Servers",
+    "topic": "Greedy",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/process-tasks-using-servers/"
+  },
+  {
+    "id": "product-dsa-146",
+    "question_number": 146,
+    "title": "Find K Pairs with Smallest Sums",
+    "topic": "Heaps & Priority Queues",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/find-k-pairs-with-smallest-sums/"
+  },
+  {
+    "id": "product-dsa-147",
+    "question_number": 147,
+    "title": "Maximize Sum Of Array After K Negations",
+    "topic": "Greedy",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/maximize-sum-of-array-after-k-negations/"
+  },
+  {
+    "id": "product-dsa-148",
+    "question_number": 148,
+    "title": "Subsets",
+    "topic": "Recursion & Backtracking",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/subsets/"
+  },
+  {
+    "id": "product-dsa-149",
+    "question_number": 149,
+    "title": "Subsets II",
+    "topic": "Recursion & Backtracking",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/subsets-ii/"
+  },
+  {
+    "id": "product-dsa-150",
+    "question_number": 150,
+    "title": "Combination Sum",
+    "topic": "Recursion & Backtracking",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/combination-sum/"
+  },
+  {
+    "id": "product-dsa-151",
+    "question_number": 151,
+    "title": "Combination Sum II",
+    "topic": "Recursion & Backtracking",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/combination-sum-ii/"
+  },
+  {
+    "id": "product-dsa-152",
+    "question_number": 152,
+    "title": "Permutations",
+    "topic": "Recursion & Backtracking",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/permutations/"
+  },
+  {
+    "id": "product-dsa-153",
+    "question_number": 153,
+    "title": "Permutations II",
+    "topic": "Recursion & Backtracking",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/permutations-ii/"
+  },
+  {
+    "id": "product-dsa-154",
+    "question_number": 154,
+    "title": "Word Search",
+    "topic": "Recursion & Backtracking",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/word-search/"
+  },
+  {
+    "id": "product-dsa-155",
+    "question_number": 155,
+    "title": "Palindrome Partitioning",
+    "topic": "Recursion & Backtracking",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/palindrome-partitioning/"
+  },
+  {
+    "id": "product-dsa-156",
+    "question_number": 156,
+    "title": "Letter Combinations of a Phone Number",
+    "topic": "Recursion & Backtracking",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/letter-combinations-of-a-phone-number/"
+  },
+  {
+    "id": "product-dsa-157",
+    "question_number": 157,
+    "title": "N-Queens",
+    "topic": "Recursion & Backtracking",
+    "difficulty": "Hard",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/n-queens/"
+  },
+  {
+    "id": "product-dsa-158",
+    "question_number": 158,
+    "title": "Sudoku Solver",
+    "topic": "Recursion & Backtracking",
+    "difficulty": "Hard",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/sudoku-solver/"
+  },
+  {
+    "id": "product-dsa-159",
+    "question_number": 159,
+    "title": "Restore IP Addresses",
+    "topic": "Recursion & Backtracking",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/restore-ip-addresses/"
+  },
+  {
+    "id": "product-dsa-160",
+    "question_number": 160,
+    "title": "Partition to K Equal Sum Subsets",
+    "topic": "Recursion & Backtracking",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/partition-to-k-equal-sum-subsets/"
+  },
+  {
+    "id": "product-dsa-161",
+    "question_number": 161,
+    "title": "Matchsticks to Square",
+    "topic": "Recursion & Backtracking",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/matchsticks-to-square/"
+  },
+  {
+    "id": "product-dsa-162",
+    "question_number": 162,
+    "title": "Rat in a Maze",
+    "topic": "Recursion & Backtracking",
+    "difficulty": "Medium",
+    "platform": "GeeksforGeeks",
+    "url": "https://www.geeksforgeeks.org/problems/rat-in-a-maze-problem/1"
+  },
+  {
+    "id": "product-dsa-163",
+    "question_number": 163,
+    "title": "Number of Islands",
+    "topic": "Graphs",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/number-of-islands/"
+  },
+  {
+    "id": "product-dsa-164",
+    "question_number": 164,
+    "title": "Max Area of Island",
+    "topic": "Graphs",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/max-area-of-island/"
+  },
+  {
+    "id": "product-dsa-165",
+    "question_number": 165,
+    "title": "Clone Graph",
+    "topic": "Graphs",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/clone-graph/"
+  },
+  {
+    "id": "product-dsa-166",
+    "question_number": 166,
+    "title": "Pacific Atlantic Water Flow",
+    "topic": "Graphs",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/pacific-atlantic-water-flow/"
+  },
+  {
+    "id": "product-dsa-167",
+    "question_number": 167,
+    "title": "Surrounded Regions",
+    "topic": "Graphs",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/surrounded-regions/"
+  },
+  {
+    "id": "product-dsa-168",
+    "question_number": 168,
+    "title": "Course Schedule",
+    "topic": "Graphs",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/course-schedule/"
+  },
+  {
+    "id": "product-dsa-169",
+    "question_number": 169,
+    "title": "Course Schedule II",
+    "topic": "Graphs",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/course-schedule-ii/"
+  },
+  {
+    "id": "product-dsa-170",
+    "question_number": 170,
+    "title": "Graph is Tree or Not",
+    "topic": "Union-Find / DSU",
+    "difficulty": "Medium",
+    "platform": "GeeksforGeeks",
+    "url": "https://www.geeksforgeeks.org/problems/is-it-a-tree/1"
+  },
+  {
+    "id": "product-dsa-171",
+    "question_number": 171,
+    "title": "Number of Connected Components",
+    "topic": "Union-Find / DSU",
+    "difficulty": "Medium",
+    "platform": "GeeksforGeeks",
+    "url": "https://www.geeksforgeeks.org/problems/number-of-provinces/1"
+  },
+  {
+    "id": "product-dsa-172",
+    "question_number": 172,
+    "title": "Redundant Connection",
+    "topic": "Union-Find / DSU",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/redundant-connection/"
+  },
+  {
+    "id": "product-dsa-173",
+    "question_number": 173,
+    "title": "Word Ladder",
+    "topic": "Graphs",
+    "difficulty": "Hard",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/word-ladder/"
+  },
+  {
+    "id": "product-dsa-174",
+    "question_number": 174,
+    "title": "Network Delay Time",
+    "topic": "Graphs",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/network-delay-time/"
+  },
+  {
+    "id": "product-dsa-175",
+    "question_number": 175,
+    "title": "Cheapest Flights Within K Stops",
+    "topic": "Graphs",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/cheapest-flights-within-k-stops/"
+  },
+  {
+    "id": "product-dsa-176",
+    "question_number": 176,
+    "title": "Is Graph Bipartite?",
+    "topic": "Graphs",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/is-graph-bipartite/"
+  },
+  {
+    "id": "product-dsa-177",
+    "question_number": 177,
+    "title": "Reconstruct Itinerary",
+    "topic": "Graphs",
+    "difficulty": "Hard",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/reconstruct-itinerary/"
+  },
+  {
+    "id": "product-dsa-178",
+    "question_number": 178,
+    "title": "Min Cost to Connect All Points",
+    "topic": "Union-Find / DSU",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/min-cost-to-connect-all-points/"
+  },
+  {
+    "id": "product-dsa-179",
+    "question_number": 179,
+    "title": "Swim in Rising Water",
+    "topic": "Graphs",
+    "difficulty": "Hard",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/swim-in-rising-water/"
+  },
+  {
+    "id": "product-dsa-180",
+    "question_number": 180,
+    "title": "Alien Dictionary",
+    "topic": "Graphs",
+    "difficulty": "Hard",
+    "platform": "GeeksforGeeks",
+    "url": "https://www.geeksforgeeks.org/problems/alien-dictionary/1"
+  },
+  {
+    "id": "product-dsa-181",
+    "question_number": 181,
+    "title": "Evaluate Division",
+    "topic": "Graphs",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/evaluate-division/"
+  },
+  {
+    "id": "product-dsa-182",
+    "question_number": 182,
+    "title": "Critical Connections in a Network",
+    "topic": "Graphs",
+    "difficulty": "Hard",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/critical-connections-in-a-network/"
+  },
+  {
+    "id": "product-dsa-183",
+    "question_number": 183,
+    "title": "Climbing Stairs",
+    "topic": "Dynamic Programming",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/climbing-stairs/"
+  },
+  {
+    "id": "product-dsa-184",
+    "question_number": 184,
+    "title": "Min Cost Climbing Stairs",
+    "topic": "Dynamic Programming",
+    "difficulty": "Easy",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/min-cost-climbing-stairs/"
+  },
+  {
+    "id": "product-dsa-185",
+    "question_number": 185,
+    "title": "House Robber",
+    "topic": "Dynamic Programming",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/house-robber/"
+  },
+  {
+    "id": "product-dsa-186",
+    "question_number": 186,
+    "title": "House Robber II",
+    "topic": "Dynamic Programming",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/house-robber-ii/"
+  },
+  {
+    "id": "product-dsa-187",
+    "question_number": 187,
+    "title": "Distinct Subsequences",
+    "topic": "Dynamic Programming",
+    "difficulty": "Hard",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/distinct-subsequences/"
+  },
+  {
+    "id": "product-dsa-188",
+    "question_number": 188,
+    "title": "Decode Ways",
+    "topic": "Dynamic Programming",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/decode-ways/"
+  },
+  {
+    "id": "product-dsa-189",
+    "question_number": 189,
+    "title": "Coin Change",
+    "topic": "Dynamic Programming",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/coin-change/"
+  },
+  {
+    "id": "product-dsa-190",
+    "question_number": 190,
+    "title": "Interleaving String",
+    "topic": "Dynamic Programming",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/interleaving-string/"
+  },
+  {
+    "id": "product-dsa-191",
+    "question_number": 191,
+    "title": "Word Break",
+    "topic": "Dynamic Programming",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/word-break/"
+  },
+  {
+    "id": "product-dsa-192",
+    "question_number": 192,
+    "title": "Longest Increasing Subsequence",
+    "topic": "Dynamic Programming",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/longest-increasing-subsequence/"
+  },
+  {
+    "id": "product-dsa-193",
+    "question_number": 193,
+    "title": "Partition Equal Subset Sum",
+    "topic": "Dynamic Programming",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/partition-equal-subset-sum/"
+  },
+  {
+    "id": "product-dsa-194",
+    "question_number": 194,
+    "title": "Unique Paths",
+    "topic": "Dynamic Programming",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/unique-paths/"
+  },
+  {
+    "id": "product-dsa-195",
+    "question_number": 195,
+    "title": "Longest Common Subsequence",
+    "topic": "Dynamic Programming",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/longest-common-subsequence/"
+  },
+  {
+    "id": "product-dsa-196",
+    "question_number": 196,
+    "title": "Best Time to Buy and Sell Stock with Cooldown",
+    "topic": "Dynamic Programming",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/"
+  },
+  {
+    "id": "product-dsa-197",
+    "question_number": 197,
+    "title": "Coin Change II",
+    "topic": "Dynamic Programming",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/coin-change-ii/"
+  },
+  {
+    "id": "product-dsa-198",
+    "question_number": 198,
+    "title": "Target Sum",
+    "topic": "Dynamic Programming",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/target-sum/"
+  },
+  {
+    "id": "product-dsa-199",
+    "question_number": 199,
+    "title": "Edit Distance",
+    "topic": "Dynamic Programming",
+    "difficulty": "Medium",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/edit-distance/"
+  },
+  {
+    "id": "product-dsa-200",
+    "question_number": 200,
+    "title": "Burst Balloons",
+    "topic": "Dynamic Programming",
+    "difficulty": "Hard",
+    "platform": "LeetCode",
+    "url": "https://leetcode.com/problems/burst-balloons/"
+  }
+]
