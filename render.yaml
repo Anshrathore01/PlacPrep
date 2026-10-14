@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: placprep-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: DB_HOST
+        value: mysql-30b6cc96-placement-prep123.j.aivencloud.com
+      - key: DB_PORT
+        value: "13363"
+      - key: DB_NAME
+        value: defaultdb
+      - key: DB_USER
+        value: avnadmin
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_SSL_CA_CERT
+        value: /etc/secrets/aiven-ca.pem
+      - key: JWT_SECRET
+        generateValue: true
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: AI_MODEL
+        value: gemini-3.1-flash-lite
+      - key: FRONTEND_ORIGINS
+        sync: false

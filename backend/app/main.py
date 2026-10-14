@@ -426,6 +426,12 @@ def home():
     return {"message": "FastAPI server is running"}
 
 
+@app.get("/health")
+def health():
+    # Liveness only; this remains available while a database is recovering.
+    return {"status": "ok"}
+
+
 @app.get("/test-db")
 def test_db():
     success = test_connection()

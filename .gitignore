@@ -25,3 +25,6 @@ build/
 
 # Temporary backups
 *.bak
+
+# Private database certificates and local deployment secrets
+backup/*.pem
