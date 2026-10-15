@@ -1,3 +1,4 @@
+
 """Provider boundary for structured selection and natural-language tutoring."""
 
 import json
@@ -34,28 +35,51 @@ class AIProvider(ABC):
         raise NotImplementedError
 
 
+def _log_provider_error(operation: str, model: str, error: Exception) -> None:
+    """Log useful provider diagnostics without logging prompts or credentials."""
+    status = getattr(error, "status_code", None)
+    if status is None:
+        status = getattr(error, "code", None)
+
+    # Avoid dumping an exception message that could contain sensitive data.
+    message = " ".join(str(error).split())[:500]
+
+    logger.warning(
+        "AI %s failed model=%s error_type=%s status_or_code=%s message=%s",
+        operation,
+        model,
+        type(error).__name__,
+        status,
+        message,
+    )
+
+
 class GeminiProvider(AIProvider):
     def __init__(self) -> None:
         config = get_ai_config()
+
         if not config.api_key:
             raise AIProviderError("AI provider is not configured.")
+
         if not config.model:
             raise AIProviderError("AI model configuration is empty.")
+
         try:
             from google import genai
         except ImportError as error:
-            raise AIProviderError("AI provider dependency is unavailable.") from error
+            raise AIProviderError(
+                "AI provider dependency is unavailable."
+            ) from error
 
         self.model = config.model
+
         try:
             self._client = genai.Client(api_key=config.api_key)
         except Exception as error:
-            logger.warning(
-                "AI provider initialization failed model=%s error_type=%s",
-                self.model,
-                type(error).__name__,
-            )
-            raise AIProviderError("AI provider could not be initialized.") from error
+            _log_provider_error("initialization", self.model, error)
+            raise AIProviderError(
+                "AI provider could not be initialized."
+            ) from error
 
     def generate_structured(
         self,
@@ -73,23 +97,29 @@ class GeminiProvider(AIProvider):
                     response_schema=response_schema,
                 ),
             )
+
             if response.parsed is not None:
                 parsed = response.parsed
+
                 if isinstance(parsed, response_schema):
                     return parsed
+
                 return response_schema.model_validate(parsed)
+
             if not response.text:
-                raise AIProviderError("AI provider returned an empty response.")
+                raise AIProviderError(
+                    "AI provider returned an empty response."
+                )
+
             return response_schema.model_validate(json.loads(response.text))
+
         except AIProviderError:
             raise
         except Exception as error:
-            logger.warning(
-                "AI structured generation failed model=%s error_type=%s",
-                self.model,
-                type(error).__name__,
-            )
-            raise AIProviderError("AI provider could not complete the request.") from error
+            _log_provider_error("structured generation", self.model, error)
+            raise AIProviderError(
+                "AI provider could not complete the request."
+            ) from error
 
     def generate_text(self, prompt: str) -> str:
         try:
@@ -97,18 +127,21 @@ class GeminiProvider(AIProvider):
                 model=self.model,
                 contents=prompt,
             )
+
             if not response.text or not response.text.strip():
-                raise AIProviderError("AI provider returned an empty response.")
+                raise AIProviderError(
+                    "AI provider returned an empty response."
+                )
+
             return response.text.strip()
+
         except AIProviderError:
             raise
         except Exception as error:
-            logger.warning(
-                "AI text generation failed model=%s error_type=%s",
-                self.model,
-                type(error).__name__,
-            )
-            raise AIProviderError("AI provider could not complete the request.") from error
+            _log_provider_error("text generation", self.model, error)
+            raise AIProviderError(
+                "AI provider could not complete the request."
+            ) from error
 
 
 def get_ai_provider() -> AIProvider:
@@ -117,12 +150,16 @@ def get_ai_provider() -> AIProvider:
         return GeminiProvider()
     except AIProviderError as error:
         cause = error.__cause__
+
         logger.warning(
             "AI provider unavailable model=%s failure_type=%s",
             get_ai_config().model,
             type(cause).__name__ if cause is not None else type(error).__name__,
         )
+
         raise HTTPException(
             status_code=503,
-            detail="AI provider is not configured or is temporarily unavailable.",
+            detail=(
+                "AI provider is not configured or is temporarily unavailable."
+            ),
         ) from error
