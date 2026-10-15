@@ -251,15 +251,20 @@ def _curate(
         for row in candidates
     ]
     try:
-        result = provider.generate_structured(
-            build_selection_prompt(
+        prompt = build_selection_prompt(
                 prompt_candidates,
                 requested_count,
                 difficulty,
                 filters,
-            ),
-            QuestionSelection,
-        )
+            )
+        if hasattr(provider, "generate_structured_validated"):
+            return provider.generate_structured_validated(
+                prompt, QuestionSelection,
+                lambda result: validate_selected_ids(
+                    result.selected_question_ids, candidates, requested_count, difficulty
+                ),
+            )
+        result = provider.generate_structured(prompt, QuestionSelection)
     except AIProviderError as error:
         raise HTTPException(
             status_code=503,
@@ -278,6 +283,8 @@ def generate_mock(
     user_id: int,
     provider: AIProvider,
 ) -> dict:
+    if hasattr(provider, "feature"):
+        provider.feature = "mock_generation"
     if request.blueprint_id is not None:
         return _generate_blueprint_mock(request, user_id, provider)
 

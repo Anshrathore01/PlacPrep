@@ -183,6 +183,12 @@ def test_placo_rejects_empty_message():
 
 
 def test_missing_provider_configuration_maps_to_safe_503(monkeypatch):
+    from types import SimpleNamespace
+
+    monkeypatch.setattr("app.ai.provider.get_ai_config", lambda: SimpleNamespace(
+        api_key="test-key", model="test-model", gemini_fallback_model=None,
+        openai_api_key=None, openai_fallback_model="gpt-4o-mini",
+    ))
     with patch(
         "app.ai.provider.GeminiProvider",
         side_effect=AIProviderError("not configured"),
@@ -699,3 +705,60 @@ def test_placo_provider_failure_returns_503_without_persisting_exchange(
             {"user_id": fixture["user_ids"][0]},
         ).scalar_one()
     assert count == 0
+
+
+def test_fallback_provider_uses_primary_without_fallback():
+    from app.ai.provider import FallbackAIProvider
+
+    primary = FakeAIProvider(text_response="Primary answer")
+    secondary = FakeAIProvider(text_response="Secondary answer")
+    fallback = FallbackAIProvider([("gemini_primary", primary), ("openai", secondary)], "placo")
+    assert fallback.generate_text("safe prompt") == "Primary answer"
+    assert len(primary.prompts) == 1
+    assert not secondary.prompts
+
+
+def test_fallback_provider_retries_transient_then_advances():
+    from app.ai.provider import FallbackAIProvider
+
+    class FailsTransiently(FakeAIProvider):
+        def generate_text(self, prompt):
+            self.prompts.append(prompt)
+            raise AIProviderError("temporary", status_code=503, category="temporary_outage", retryable=True)
+
+    first, second, final = FailsTransiently(), FailsTransiently(), FakeAIProvider(text_response="OpenAI answer")
+    fallback = FallbackAIProvider([("gemini_primary", first), ("gemini_secondary", second), ("openai", final)], "placo")
+    with patch("app.ai.provider.time.sleep"):
+        assert fallback.generate_text("safe prompt") == "OpenAI answer"
+    assert len(first.prompts) == 2
+    assert len(second.prompts) == 1
+    assert len(final.prompts) == 1
+
+
+def test_fallback_provider_does_not_retry_permanent_errors():
+    from app.ai.provider import FallbackAIProvider
+
+    class InvalidRequest(FakeAIProvider):
+        def generate_text(self, prompt):
+            self.prompts.append(prompt)
+            raise AIProviderError("invalid", status_code=400, category="invalid_request")
+
+    primary, secondary = InvalidRequest(), FakeAIProvider(text_response="fallback")
+    fallback = FallbackAIProvider([("gemini_primary", primary), ("openai", secondary)], "placo")
+    assert fallback.generate_text("prompt") == "fallback"
+    assert len(primary.prompts) == 1
+
+
+def test_fallback_structured_output_runs_existing_id_validator():
+    from app.ai.provider import FallbackAIProvider
+
+    invalid = FakeAIProvider([999])
+    valid = FakeAIProvider([42])
+    fallback = FallbackAIProvider([("gemini_primary", invalid), ("openai", valid)], "mock_generation")
+    selected = fallback.generate_structured_validated(
+        "select", QuestionSelection,
+        lambda result: validate_selected_ids(result.selected_question_ids,
+            [{"question_id": 42, "difficulty": "EASY"}], 1, "EASY"),
+    )
+    assert selected == [42]
+    assert len(invalid.prompts) == len(valid.prompts) == 1

@@ -158,6 +158,8 @@ def chat(
     user_id: int,
     provider: AIProvider,
 ) -> dict:
+    if hasattr(provider, "feature"):
+        provider.feature = "placo"
     started = time.monotonic()
     with engine.begin() as connection:
         question_id, attempt_id, history = _conversation_context(
