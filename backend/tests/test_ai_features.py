@@ -815,11 +815,68 @@ def test_provider_error_classifies_openai_quota_separately_from_rate_limit():
     quota = SimpleNamespace(status_code=429, code="insufficient_quota",
                             message="You exceeded your current quota")
     throttled = SimpleNamespace(status_code=429, code="rate_limit_exceeded",
-                                message="Please retry shortly")
+                                message="Please retry shortly",
+                                headers={"Retry-After": "12"})
     assert _failure_details(quota)["category"] == "quota_exhausted"
     assert not _failure_details(quota)["retryable"]
     assert _failure_details(throttled)["category"] == "rate_limit"
-    assert _failure_details(throttled)["retryable"]
+    assert not _failure_details(throttled)["retryable"]
+    assert _failure_details(throttled)["retry_after"] == 12
+
+
+def test_application_rate_limit_returns_retry_after_without_user_identifiers():
+    from app.ai import rate_limit
+
+    key = ("placo", -987654321)
+    with rate_limit._lock:
+        rate_limit._events.pop(key, None)
+    try:
+        for _ in range(rate_limit._LIMITS["placo"][0]):
+            rate_limit.enforce_user_limit(*key)
+        with pytest.raises(HTTPException) as raised:
+            rate_limit.enforce_user_limit(*key)
+        assert raised.value.status_code == 429
+        retry_after = int(raised.value.headers["Retry-After"])
+        assert 1 <= retry_after <= 60
+    finally:
+        with rate_limit._lock:
+            rate_limit._events.pop(key, None)
+
+
+def test_provider_rate_limit_skips_same_provider_retries_and_preserves_retry_after():
+    from app.ai.provider import FallbackAIProvider
+
+    class ThrottledProvider(FakeAIProvider):
+        def generate_text(self, prompt):
+            self.prompts.append(prompt)
+            raise AIProviderError(
+                "rate limited",
+                status_code=429,
+                category="rate_limit",
+                retryable=False,
+                retry_after=17,
+            )
+
+    primary = ThrottledProvider()
+    same_provider_fallback = FakeAIProvider(text_response="Gemini fallback")
+    other_provider = FakeAIProvider(text_response="OpenAI fallback")
+    provider = FallbackAIProvider(
+        [
+            ("gemini_primary", primary),
+            ("gemini_secondary", same_provider_fallback),
+            ("openai", other_provider),
+        ],
+        "placo",
+    )
+
+    assert provider.generate_text("safe prompt") == "OpenAI fallback"
+    assert len(primary.prompts) == 1
+    assert not same_provider_fallback.prompts
+    assert len(other_provider.prompts) == 1
+
+    with pytest.raises(AIProviderError) as raised:
+        FallbackAIProvider([("gemini_primary", primary)], "placo").generate_text("safe prompt")
+    assert raised.value.retry_after == 17
 
 
 def test_fallback_exhaustion_reports_failure_without_success_claim():

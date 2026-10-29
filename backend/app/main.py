@@ -1,10 +1,13 @@
+import logging
 import os
+import time
+from contextvars import ContextVar
 from typing import Optional
 
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-from sqlalchemy import bindparam, text
+from sqlalchemy import bindparam, event, text
 
 from app.environment import load_environment
 from app.database import engine, test_connection
@@ -23,12 +26,56 @@ from app.routers.placo import router as placo_router
 from app.services import blueprint_service
 from fastapi import Depends
 
+logger = logging.getLogger("app.performance")
+_request_metrics: ContextVar[dict | None] = ContextVar("request_metrics", default=None)
+
+
+@event.listens_for(engine, "before_cursor_execute")
+def _start_query_timer(connection, cursor, statement, parameters, context, executemany):
+    context._placprep_query_started = time.perf_counter()
+
+
+@event.listens_for(engine, "after_cursor_execute")
+def _record_query_time(connection, cursor, statement, parameters, context, executemany):
+    started = getattr(context, "_placprep_query_started", None)
+    metrics = _request_metrics.get()
+    if started is not None and metrics is not None:
+        metrics["db_queries"] += 1
+        metrics["db_time_ms"] += (time.perf_counter() - started) * 1000
+
 load_environment()
 
 app = FastAPI(
     title="Placement Preparation Platform API",
     version="1.0.0",
 )
+
+
+@app.middleware("http")
+async def log_slow_requests(request, call_next):
+    metrics = {"db_queries": 0, "db_time_ms": 0.0}
+    token = _request_metrics.set(metrics)
+    started = time.perf_counter()
+    status_code = 500
+    try:
+        response = await call_next(request)
+        status_code = response.status_code
+        return response
+    finally:
+        duration_ms = (time.perf_counter() - started) * 1000
+        route = request.scope.get("route")
+        route_template = getattr(route, "path", "unmatched")
+        if duration_ms >= 1000 or status_code == 429:
+            logger.warning(
+                "slow_request method=%s route=%s status=%s duration_ms=%s db_queries=%s db_time_ms=%s",
+                request.method,
+                route_template,
+                status_code,
+                round(duration_ms),
+                metrics["db_queries"],
+                round(metrics["db_time_ms"]),
+            )
+        _request_metrics.reset(token)
 frontend_origins = [
     origin.strip()
     for origin in os.getenv(
@@ -42,6 +89,7 @@ app.add_middleware(
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["Retry-After"],
 )
 
 app.include_router(attempts.router)
@@ -586,6 +634,10 @@ def get_mock_test(mock_test_id: int):
             {"mock_test_id": mock_test_id},
         ).mappings().all()
 
+        question_details = question_service.get_question_details_student(
+            connection,
+            [int(row["question_id"]) for row in rows],
+        )
         questions = []
         section_by_sequence = {}
         if mock_test["blueprint_id"] is not None:
@@ -608,11 +660,7 @@ def get_mock_test(mock_test_id: int):
                         "section_order": rule.get("section_order"),
                     }
                     next_sequence += 1
-        for row in rows:
-            question = _get_question_detail(
-                connection,
-                row["question_id"],
-            )
+        for row, question in zip(rows, question_details):
             question["sequence_no"] = row["sequence_no"]
             question["points"] = float(row["points"])
             question.update(section_by_sequence.get(int(row["sequence_no"]), {}))

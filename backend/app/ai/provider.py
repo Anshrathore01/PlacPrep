@@ -7,6 +7,7 @@ import random
 import re
 import time
 from abc import ABC, abstractmethod
+from email.utils import parsedate_to_datetime
 from typing import TypeVar
 
 from fastapi import HTTPException
@@ -212,7 +213,9 @@ def _failure_details(error: Exception) -> dict:
         "insufficient_quota", "billing_hard_limit", "quota_exceeded",
         "resource_exhausted", "exceeded your current quota",
     ))
-    retryable = status in {408, 429, 500, 502, 503, 504} and not quota_exhausted
+    # A provider 429 is returned promptly with Retry-After instead of retrying
+    # the same provider inside this request. Fallback providers may still run.
+    retryable = status in {408, 500, 502, 503, 504} and not quota_exhausted
     category = (
         "invalid_structured_output" if isinstance(error, ValidationError)
         else "quota_exhausted" if quota_exhausted else "rate_limit" if status == 429 else "temporary_outage" if retryable
@@ -222,10 +225,14 @@ def _failure_details(error: Exception) -> dict:
     )
     headers = getattr(error, "headers", None) or {}
     retry_after = None
+    retry_after_header = headers.get("retry-after") or headers.get("Retry-After")
     try:
-        retry_after = float(headers.get("retry-after"))
+        retry_after = max(0.0, float(retry_after_header))
     except (TypeError, ValueError):
-        pass
+        try:
+            retry_after = max(0.0, parsedate_to_datetime(retry_after_header).timestamp() - time.time())
+        except (TypeError, ValueError, OverflowError):
+            pass
     return {"status_code": status, "retryable": retryable,
             "category": category, "retry_after": retry_after}
 
@@ -308,7 +315,11 @@ class FallbackAIProvider(AIProvider):
         deadline = time.monotonic() + self.timeout_seconds
         last_error = None
         total_attempts = 0
+        skipped_provider_families = set()
         for provider_index, (name, provider) in enumerate(self.providers):
+            provider_family = name.split("_", 1)[0]
+            if provider_family in skipped_provider_families:
+                continue
             attempts = 0
             attempt_budget = max(1, 4 - (len(self.providers) - provider_index - 1))
             while (attempts <= self.max_retries and total_attempts < attempt_budget
@@ -334,11 +345,22 @@ class FallbackAIProvider(AIProvider):
                     return result
                 except AIProviderError as error:
                     last_error = error
-                    fallback_attempted = provider_index < len(self.providers) - 1 or attempts <= self.max_retries
+                    if error.category in {"rate_limit", "quota_exhausted"}:
+                        skipped_provider_families.add(provider_family)
+                    fallback_attempted = (
+                        error.retryable and attempts <= self.max_retries
+                    ) or any(
+                        candidate_name.split("_", 1)[0] not in skipped_provider_families
+                        for candidate_name, _ in self.providers[provider_index + 1:]
+                    )
                     logger.warning("AI provider failure feature=%s provider=%s model=%s attempt=%s category=%s status=%s fallback_attempted=%s", self.feature, name, provider.model, attempts, error.category, error.status_code, fallback_attempted)
                     if not error.retryable or attempts > self.max_retries:
                         break
-                    delay = min(error.retry_after or (0.25 * (2 ** (attempts - 1)) + random.random() * 0.15), 1.5)
+                    delay = (
+                        error.retry_after
+                        if error.retry_after is not None
+                        else min(0.25 * (2 ** (attempts - 1)) + random.random() * 0.15, 1.5)
+                    )
                     if time.monotonic() + delay >= deadline:
                         break
                     time.sleep(delay)

@@ -35,4 +35,30 @@ describe("Supabase-authenticated API client", () => {
     await expect(api.me()).rejects.toMatchObject({ status: 401 });
     expect(auth.signOut).toHaveBeenCalledWith({ scope: "local" });
   });
+
+  it("deduplicates and briefly caches public company catalog requests", async () => {
+    vi.stubGlobal("window", {});
+    auth.getSession.mockResolvedValue({ data: { session: null } });
+    const fetchMock = vi.fn().mockResolvedValue(new Response("[]", { status: 200 }));
+    vi.stubGlobal("fetch", fetchMock);
+
+    await Promise.all([api.companies(), api.companies()]);
+    await api.companies();
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("exposes Retry-After on API errors so Placo can wait before retrying", async () => {
+    vi.stubGlobal("window", {});
+    auth.getSession.mockResolvedValue({ data: { session: null } });
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(
+      JSON.stringify({ detail: "Placo is temporarily busy." }),
+      { status: 429, headers: { "Retry-After": "3" } },
+    )));
+
+    await expect(api.placo({ message: "Help me understand this." })).rejects.toMatchObject({
+      status: 429,
+      retryAfterSeconds: 3,
+    });
+  });
 });

@@ -3,7 +3,31 @@ import { createSupabaseBrowserClient } from "./supabase/client";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL?.trim()
   || (process.env.NODE_ENV !== "production" ? "http://127.0.0.1:8000" : "");
-export class ApiError extends Error { constructor(public status: number, message: string) { super(message); } }
+const PUBLIC_DATA_TTL_MS = 5 * 60_000;
+const publicDataCache = new Map<string, { expiresAt: number; promise: Promise<unknown> }>();
+export class ApiError extends Error {
+  constructor(public status: number, message: string, public retryAfterSeconds?: number) {
+    super(message);
+  }
+}
+
+function cachedPublicData<T>(key: string, load: () => Promise<T>): Promise<T> {
+  const cached = publicDataCache.get(key);
+  if (cached && cached.expiresAt > Date.now()) return cached.promise as Promise<T>;
+
+  const entry = {
+    expiresAt: Date.now() + PUBLIC_DATA_TTL_MS,
+    promise: Promise.resolve(undefined) as Promise<unknown>,
+  };
+  const promise = load().catch((error) => {
+    if (publicDataCache.get(key) === entry) publicDataCache.delete(key);
+    throw error;
+  });
+  entry.promise = promise;
+  publicDataCache.set(key, entry);
+  return promise;
+}
+
 async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   if (!BASE_URL) {
     throw new ApiError(0, "The API server is not configured. Set NEXT_PUBLIC_API_BASE_URL and rebuild the frontend.");
@@ -34,6 +58,14 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
     clearTimeout(timeout);
   }
   if (!response.ok) {
+    const retryAfterHeader = response.headers.get("Retry-After");
+    let retryAfterSeconds: number | undefined;
+    if (retryAfterHeader) {
+      const seconds = Number(retryAfterHeader);
+      const dateDelay = Date.parse(retryAfterHeader) - Date.now();
+      const delay = Number.isFinite(seconds) ? seconds : dateDelay / 1000;
+      if (Number.isFinite(delay) && delay > 0) retryAfterSeconds = Math.ceil(delay);
+    }
     let message = response.status >= 500
       ? "Unable to complete your request right now. Please try again."
       : `Request failed (${response.status})`;
@@ -63,7 +95,7 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
     if (response.status === 401 && typeof window !== "undefined") {
       void createSupabaseBrowserClient().auth.signOut({ scope: "local" });
     }
-    throw new ApiError(response.status, message);
+    throw new ApiError(response.status, message, retryAfterSeconds);
   }
   return response.status === 204 ? (undefined as T) : response.json();
 }
@@ -89,10 +121,10 @@ export const api = {
   difficulty: () => request<Record<string, unknown>[]>("/analytics/me/difficulty"),
   progress: () => request<Record<string, unknown>>("/analytics/me/progress"),
   attempts: () => request<Record<string, unknown>>("/analytics/me/attempts"),
-  companies: () => request<Company[]>("/companies"),
+  companies: () => cachedPublicData("companies", () => request<Company[]>("/companies")),
   company: (id: number) => request<Company>(`/companies/${id}`),
   blueprints: () => request<Blueprint[]>("/blueprints"),
   generateAI: (body: AIRequest) => request<AIResponse>("/ai/mock-tests/generate", { method: "POST", body: JSON.stringify(body) }),
-  taxonomy: () => request<SubjectTrack[]>("/taxonomy"),
+  taxonomy: () => cachedPublicData("taxonomy", () => request<SubjectTrack[]>("/taxonomy")),
   placo: (body: { message: string; question_id?: number; attempt_id?: number; conversation_id?: number }) => request<PlacoResponse>("/ai/placo/chat", { method: "POST", body: JSON.stringify(body) }),
 };

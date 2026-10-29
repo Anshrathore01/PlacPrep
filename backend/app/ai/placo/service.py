@@ -1,6 +1,7 @@
 """Context-safe Placo chat and conversation persistence."""
 
 import logging
+import math
 import re
 import time
 
@@ -205,7 +206,11 @@ def chat(
                     detail="AI assistant quota is currently exhausted for the configured project. Please check provider quota or billing.",
                 ) from error
             if error.category == "rate_limit":
-                headers = {"Retry-After": str(int(error.retry_after))} if error.retry_after else None
+                headers = (
+                    {"Retry-After": str(max(1, math.ceil(error.retry_after)))}
+                    if error.retry_after is not None
+                    else None
+                )
                 raise HTTPException(
                     status_code=429,
                     detail="Placo is currently experiencing high demand. Please try again in a few moments.",

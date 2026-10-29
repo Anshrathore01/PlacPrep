@@ -22,14 +22,17 @@ function PlacoPanelSession() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [retryText, setRetryText] = useState("");
+  const [retryWaitSeconds, setRetryWaitSeconds] = useState(0);
   const sentRequestRef = useRef("");
+  const sendInFlightRef = useRef(false);
 
   const isActiveAssessment = mode === "ACTIVE_ASSESSMENT";
 
   const send = useCallback(async (textToSend?: string) => {
     const text = (textToSend ?? message).trim();
-    if (!text || busy) return;
+    if (!text || retryWaitSeconds > 0 || sendInFlightRef.current) return;
 
+    sendInFlightRef.current = true;
     setBusy(true);
     setError("");
     setRetryText(text);
@@ -54,16 +57,31 @@ function PlacoPanelSession() {
       setConversationId(result.conversation_id);
       setMessages((prev) => [...prev, { role: "assistant", content: result.message }]);
       setRetryText("");
+      setRetryWaitSeconds(0);
     } catch (cause) {
       if (cause instanceof ApiError && cause.status === 401) {
         setError("Please sign in to chat with Placo.");
       } else {
+        const retryDelay = cause instanceof ApiError && cause.status === 429
+          ? cause.retryAfterSeconds ?? 5
+          : undefined;
+        setRetryWaitSeconds(retryDelay ?? 0);
         setError(cause instanceof Error ? cause.message : "Placo is temporarily unavailable.");
       }
     } finally {
+      sendInFlightRef.current = false;
       setBusy(false);
     }
-  }, [attemptId, busy, conversationId, message, questionId]);
+  }, [attemptId, conversationId, message, questionId, retryWaitSeconds]);
+
+  useEffect(() => {
+    if (retryWaitSeconds <= 0) return;
+    const timer = window.setTimeout(
+      () => setRetryWaitSeconds((remaining) => Math.max(0, remaining - 1)),
+      1000,
+    );
+    return () => window.clearTimeout(timer);
+  }, [retryWaitSeconds]);
 
   useEffect(() => {
     if (!open || !context.request) return;
@@ -189,7 +207,7 @@ function PlacoPanelSession() {
           {error && (
             <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-xs text-red-700">
               <p>{error}</p>
-              {retryText && <button type="button" disabled={busy} onClick={() => void send(retryText)} className="mt-2 font-semibold underline disabled:opacity-50">Try again</button>}
+              {retryText && <button type="button" disabled={busy || retryWaitSeconds > 0} onClick={() => void send(retryText)} className="mt-2 font-semibold underline disabled:opacity-50">{retryWaitSeconds > 0 ? `Retry in ${retryWaitSeconds}s` : "Try again"}</button>}
             </div>
           )}
         </div>
@@ -219,7 +237,7 @@ function PlacoPanelSession() {
             />
             <button
               type="submit"
-              disabled={busy || !message.trim()}
+              disabled={busy || retryWaitSeconds > 0 || !message.trim()}
               className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-indigo-600 text-white shadow-sm disabled:opacity-40 hover:bg-indigo-700 transition"
               aria-label="Send message"
             >
