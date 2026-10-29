@@ -762,3 +762,112 @@ def test_fallback_structured_output_runs_existing_id_validator():
     )
     assert selected == [42]
     assert len(invalid.prompts) == len(valid.prompts) == 1
+
+
+def test_gemini_structured_generation_uses_json_schema_and_parses_response(monkeypatch):
+    import sys
+    from types import ModuleType, SimpleNamespace
+    from app.ai.provider import GeminiProvider
+
+    calls = {}
+    google_module = ModuleType("google")
+    google_genai = ModuleType("google.genai")
+
+    class GenerateContentConfig:
+        def __init__(self, **kwargs):
+            self.kwargs = kwargs
+
+    google_genai.types = SimpleNamespace(GenerateContentConfig=GenerateContentConfig)
+    monkeypatch.setitem(sys.modules, "google", google_module)
+    monkeypatch.setitem(sys.modules, "google.genai", google_genai)
+
+    provider = object.__new__(GeminiProvider)
+    provider.model = "gemini-test"
+
+    def generate_content(**kwargs):
+        calls.update(kwargs)
+        return SimpleNamespace(parsed=QuestionSelection(selected_question_ids=[42]), text=None)
+
+    provider._client = SimpleNamespace(models=SimpleNamespace(generate_content=generate_content))
+    result = provider.generate_structured("choose from candidates", QuestionSelection)
+    assert result.selected_question_ids == [42]
+    assert calls["model"] == "gemini-test"
+    assert calls["contents"] == "choose from candidates"
+    assert calls["config"].kwargs == {
+        "response_mime_type": "application/json",
+        "response_schema": QuestionSelection,
+    }
+
+
+def test_openai_strict_schema_adds_required_and_disallows_extra_properties():
+    from app.ai.provider import _openai_strict_schema
+
+    schema = _openai_strict_schema(QuestionSelection)
+    assert schema["required"] == ["selected_question_ids"]
+    assert schema["additionalProperties"] is False
+    assert schema["properties"]["selected_question_ids"]["type"] == "array"
+
+
+def test_provider_error_classifies_openai_quota_separately_from_rate_limit():
+    from types import SimpleNamespace
+    from app.ai.provider import _failure_details
+
+    quota = SimpleNamespace(status_code=429, code="insufficient_quota",
+                            message="You exceeded your current quota")
+    throttled = SimpleNamespace(status_code=429, code="rate_limit_exceeded",
+                                message="Please retry shortly")
+    assert _failure_details(quota)["category"] == "quota_exhausted"
+    assert not _failure_details(quota)["retryable"]
+    assert _failure_details(throttled)["category"] == "rate_limit"
+    assert _failure_details(throttled)["retryable"]
+
+
+def test_fallback_exhaustion_reports_failure_without_success_claim():
+    from app.ai.provider import FallbackAIProvider
+
+    class PermanentFailure(FakeAIProvider):
+        def generate_text(self, prompt):
+            self.prompts.append(prompt)
+            raise AIProviderError("unavailable", status_code=404, category="unavailable_model")
+
+    fallback = FallbackAIProvider([
+        ("gemini_primary", PermanentFailure()),
+        ("gemini_secondary", PermanentFailure()),
+        ("openai", PermanentFailure()),
+    ], "mock_generation")
+    with pytest.raises(AIProviderError) as raised:
+        fallback.generate_text("prompt")
+    assert raised.value.status_code == 404
+    assert raised.value.category == "unavailable_model"
+
+
+def test_gemini_invalid_structured_payload_is_classified_safely(monkeypatch):
+    import sys
+    from types import ModuleType, SimpleNamespace
+    from app.ai.provider import GeminiProvider
+
+    google_module = ModuleType("google")
+    google_genai = ModuleType("google.genai")
+    google_genai.types = SimpleNamespace(GenerateContentConfig=lambda **kwargs: kwargs)
+    monkeypatch.setitem(sys.modules, "google", google_module)
+    monkeypatch.setitem(sys.modules, "google.genai", google_genai)
+    provider = object.__new__(GeminiProvider)
+    provider.model = "gemini-test"
+    provider._client = SimpleNamespace(models=SimpleNamespace(generate_content=lambda **kwargs:
+        SimpleNamespace(parsed={"wrong_field": []}, text='{"wrong_field": []}')))
+
+    with pytest.raises(AIProviderError) as raised:
+        provider.generate_structured("prompt", QuestionSelection)
+    assert raised.value.category == "invalid_structured_output"
+    assert raised.value.status_code is None
+
+
+def test_provider_message_redacts_known_credential_patterns_and_prompt():
+    from types import SimpleNamespace
+    from app.ai.provider import _safe_provider_message
+
+    error = SimpleNamespace(message="bad request for private prompt sk-123456789012345678901234")
+    result = _safe_provider_message(error, "private prompt")
+    assert "private prompt" not in result
+    assert "sk-123456789012345678901234" not in result
+    assert "[REDACTED" in result

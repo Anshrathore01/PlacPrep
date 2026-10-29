@@ -5,11 +5,13 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { api } from "@/lib/api";
+import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import type { User } from "@/lib/types";
 
 export type AuthStatus = "INITIALIZING" | "AUTHENTICATED" | "UNAUTHENTICATED";
@@ -18,9 +20,15 @@ export type AuthContextType = {
   user: User | null;
   status: AuthStatus;
   loading: boolean;
+  hasSession: boolean;
+  authError: string;
   signIn: (email: string, password: string) => Promise<void>;
-  signInWithGoogle: (credential: string, nonce: string) => Promise<void>;
-  signOut: () => void;
+  signUp: (email: string, password: string, displayName: string, nextPath?: string) => Promise<boolean>;
+  resetPassword: (email: string) => Promise<void>;
+  updatePassword: (password: string) => Promise<void>;
+  signInWithGoogle: (nextPath?: string) => Promise<void>;
+  linkGoogle: () => Promise<void>;
+  signOut: () => Promise<void>;
   refresh: () => Promise<void>;
 };
 
@@ -36,91 +44,130 @@ export function useAuth() {
 
 function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [hasSession, setHasSession] = useState(false);
+  const [authError, setAuthError] = useState("");
   const [status, setStatus] = useState<AuthStatus>("INITIALIZING");
+  const inFlightUserRef = useRef<Promise<void> | null>(null);
+  const supabase = createSupabaseBrowserClient();
 
-  const fetchUser = useCallback(async () => {
-    try {
-      const data = await api.me();
-      setUser(data);
-      setStatus("AUTHENTICATED");
-    } catch {
-      if (typeof window !== "undefined") {
-        localStorage.removeItem("prepwise_token");
-      }
+  const fetchUser = useCallback(async (suppressError = false) => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      setHasSession(false);
       setUser(null);
-      setStatus("UNAUTHENTICATED");
-    }
-  }, []);
-
-  const refresh = useCallback(async () => {
-    const token = typeof window !== "undefined" ? localStorage.getItem("prepwise_token") : null;
-    if (!token) {
-      setUser(null);
+      setAuthError("");
       setStatus("UNAUTHENTICATED");
       return;
     }
-    await fetchUser();
+    setHasSession(true);
+
+    if (inFlightUserRef.current) {
+      return inFlightUserRef.current;
+    }
+
+    const task = (async () => {
+      try {
+        const data = await api.me();
+        setUser(data);
+        setAuthError("");
+        setStatus("AUTHENTICATED");
+      } catch (cause) {
+        setUser(null);
+        setAuthError(cause instanceof Error ? cause.message : "Unable to load your PlacPrep account.");
+        setStatus("UNAUTHENTICATED");
+        if (!suppressError) throw cause;
+      } finally {
+        inFlightUserRef.current = null;
+      }
+    })();
+
+    inFlightUserRef.current = task;
+    return task;
+  }, [supabase]);
+
+  const refresh = useCallback(async () => {
+    await fetchUser(false);
   }, [fetchUser]);
 
   useEffect(() => {
-    let active = true;
-    const token = typeof window !== "undefined" ? localStorage.getItem("prepwise_token") : null;
-    if (!token) {
-      const timer = setTimeout(() => {
-        if (active) setStatus("UNAUTHENTICATED");
-      }, 0);
-      return () => {
-        active = false;
-        clearTimeout(timer);
-      };
-    }
-
-    api.me()
-      .then((data) => {
-        if (active) {
-          setUser(data);
-          setStatus("AUTHENTICATED");
-        }
-      })
-      .catch(() => {
-        if (active) {
-          if (typeof window !== "undefined") {
-            localStorage.removeItem("prepwise_token");
-          }
-          setUser(null);
-          setStatus("UNAUTHENTICATED");
-        }
-      });
-
+    window.localStorage.removeItem("prepwise_token");
+    const initialSync = window.setTimeout(() => void fetchUser(true), 0);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setHasSession(Boolean(session));
+      setTimeout(() => void fetchUser(true), 0);
+    });
     return () => {
-      active = false;
+      window.clearTimeout(initialSync);
+      subscription.unsubscribe();
     };
-  }, []);
+  }, [fetchUser, supabase]);
 
   const signIn = useCallback(
     async (email: string, password: string) => {
-      const result = await api.login({ email, password });
-      if (typeof window !== "undefined") {
-        localStorage.setItem("prepwise_token", result.access_token);
-      }
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
       await refresh();
     },
-    [refresh],
+    [refresh, supabase],
   );
 
-  const signInWithGoogle = useCallback(async (credential: string, nonce: string) => {
-    const result = await api.googleLogin({ credential, nonce });
-    if (typeof window !== "undefined") localStorage.setItem("prepwise_token", result.access_token);
-    await refresh();
-  }, [refresh]);
+  const signUp = useCallback(async (email: string, password: string, displayName: string, nextPath = "/dashboard") => {
+    const callback = new URL("/auth/callback", window.location.origin);
+    callback.searchParams.set("next", nextPath.startsWith("/") && !nextPath.startsWith("//") ? nextPath : "/dashboard");
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { display_name: displayName },
+        emailRedirectTo: callback.toString(),
+      },
+    });
+    if (error) throw error;
+    if (data.session) await refresh();
+    return !data.session;
+  }, [refresh, supabase]);
 
-  const signOut = useCallback(() => {
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("prepwise_token");
-    }
+  const signInWithGoogle = useCallback(async (nextPath = "/dashboard") => {
+    const safeNext = nextPath.startsWith("/") && !nextPath.startsWith("//") ? nextPath : "/dashboard";
+    const callback = new URL("/auth/callback", window.location.origin);
+    callback.searchParams.set("next", safeNext);
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: callback.toString(), skipBrowserRedirect: false },
+    });
+    if (error) throw error;
+  }, [supabase]);
+
+  const resetPassword = useCallback(async (email: string) => {
+    const callback = new URL("/auth/callback", window.location.origin);
+    callback.searchParams.set("next", "/update-password");
+    const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: callback.toString() });
+    if (error) throw error;
+  }, [supabase]);
+
+  const updatePassword = useCallback(async (password: string) => {
+    const { error } = await supabase.auth.updateUser({ password });
+    if (error) throw error;
+  }, [supabase]);
+
+  const linkGoogle = useCallback(async () => {
+    const callback = new URL("/auth/callback", window.location.origin);
+    callback.searchParams.set("next", "/account/link-google");
+    const { error } = await supabase.auth.linkIdentity({
+      provider: "google",
+      options: { redirectTo: callback.toString() },
+    });
+    if (error) throw error;
+  }, [supabase]);
+
+  const signOut = useCallback(async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) throw error;
     setUser(null);
+    setHasSession(false);
+    setAuthError("");
     setStatus("UNAUTHENTICATED");
-  }, []);
+  }, [supabase]);
 
   const loading = status === "INITIALIZING";
 
@@ -130,8 +177,14 @@ function AuthProvider({ children }: { children: ReactNode }) {
         user,
         status,
         loading,
+        hasSession,
+        authError,
         signIn,
+        signUp,
+        resetPassword,
+        updatePassword,
         signInWithGoogle,
+        linkGoogle,
         signOut,
         refresh,
       }}

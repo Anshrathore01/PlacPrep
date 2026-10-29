@@ -18,8 +18,13 @@ import {
   X,
 } from "lucide-react";
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { useAuth, usePlaco } from "./providers";
-import { PlacoPanel } from "./placo";
+
+const PlacoPanel = dynamic(
+  () => import("./placo").then((mod) => mod.PlacoPanel),
+  { ssr: false }
+);
 
 const links = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },

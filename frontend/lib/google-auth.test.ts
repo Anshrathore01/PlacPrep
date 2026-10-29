@@ -1,19 +1,38 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { api } from "./api";
 
-describe("Google authentication API", () => {
-  afterEach(() => vi.unstubAllGlobals());
+const auth = { getSession: vi.fn(), signOut: vi.fn() };
+vi.mock("./supabase/client", () => ({
+  createSupabaseBrowserClient: () => ({ auth }),
+}));
 
-  it("sends the GIS credential and nonce to the existing auth endpoint", async () => {
-    const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify({ access_token: "app-jwt" }), { status: 200 }));
-    vi.stubGlobal("fetch", fetchMock);
-    await expect(api.googleLogin({ credential: "google-id-token", nonce: "nonce-value" })).resolves.toEqual({ access_token: "app-jwt" });
-    expect(fetchMock.mock.calls[0][0]).toContain("/auth/google");
-    expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toEqual({ credential: "google-id-token", nonce: "nonce-value" });
+describe("Supabase-authenticated API client", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllGlobals();
+    auth.getSession.mockReset();
+    auth.signOut.mockReset();
   });
 
-  it("surfaces backend errors for account-link conflicts", async () => {
-    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(JSON.stringify({ detail: "Sign in with password" }), { status: 409 })));
-    await expect(api.googleLogin({ credential: "google-id-token", nonce: "nonce-value" })).rejects.toMatchObject({ status: 409, message: "Sign in with password" });
+  it("sends the current Supabase access token to the app-user endpoint", async () => {
+    vi.stubGlobal("window", {});
+    auth.getSession.mockResolvedValue({ data: { session: { access_token: "supabase-access-token" } } });
+    const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify({ user_id: 12 }), { status: 200 }));
+    vi.stubGlobal("fetch", fetchMock);
+
+    await api.me();
+    const request = fetchMock.mock.calls[0][1] as RequestInit;
+    expect(new Headers(request.headers).get("Authorization")).toBe("Bearer supabase-access-token");
+    expect(fetchMock.mock.calls[0][0]).toContain("/auth/me");
+  });
+
+  it("clears the local Supabase session after an API 401", async () => {
+    vi.stubGlobal("window", {});
+    auth.getSession.mockResolvedValue({ data: { session: { access_token: "expired-token" } } });
+    auth.signOut.mockResolvedValue({ error: null });
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(JSON.stringify({ detail: "invalid" }), { status: 401 })));
+
+    await expect(api.me()).rejects.toMatchObject({ status: 401 });
+    expect(auth.signOut).toHaveBeenCalledWith({ scope: "local" });
   });
 });

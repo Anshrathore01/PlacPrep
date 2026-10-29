@@ -1,85 +1,81 @@
-from sqlalchemy import text
 import secrets
-import hashlib
-from app.auth.security import get_password_hash, verify_password, create_access_token
 
-def get_user_by_email(conn, email: str) -> dict:
-    row = conn.execute(
-        text("SELECT * FROM users WHERE email = :email"),
-        {"email": email.lower()}
-    ).mappings().first()
-    return dict(row) if row else None
+from sqlalchemy import text
 
-def get_user_by_id(conn, user_id: int) -> dict:
+from app.auth.security import get_password_hash
+
+
+def get_user_by_id(conn, user_id: int) -> dict | None:
     row = conn.execute(
         text("SELECT * FROM users WHERE user_id = :user_id"),
-        {"user_id": user_id}
+        {"user_id": user_id},
     ).mappings().first()
     return dict(row) if row else None
 
-def create_user(conn, email: str, password: str, display_name: str) -> dict:
-    email = email.lower()
-    password_hash = get_password_hash(password)
+
+def get_user_by_email(conn, email: str) -> dict | None:
+    row = conn.execute(
+        text("SELECT * FROM users WHERE email = :email"),
+        {"email": email.strip().lower()},
+    ).mappings().first()
+    return dict(row) if row else None
+
+
+def get_user_by_supabase_id(conn, supabase_user_id: str) -> dict | None:
+    row = conn.execute(
+        text("SELECT * FROM users WHERE supabase_user_id = :supabase_user_id"),
+        {"supabase_user_id": supabase_user_id},
+    ).mappings().first()
+    return dict(row) if row else None
+
+
+def resolve_supabase_user(conn, claims: dict, verified_user: dict) -> dict:
+    """Map a verified Supabase user to an existing or newly created MySQL user."""
+    supabase_user_id = claims["sub"]
+    email = str(verified_user.get("email") or "").strip().lower()
+    if not email or not verified_user.get("email_confirmed_at"):
+        from fastapi import HTTPException
+
+        raise HTTPException(status_code=403, detail="Confirm your email with Supabase before accessing PlacPrep")
+    if str(claims.get("email") or "").strip().lower() != email:
+        from fastapi import HTTPException
+
+        raise HTTPException(status_code=401, detail="Supabase token email does not match the verified account")
+
+    user = get_user_by_email(conn, email)
+    if user:
+        if user.get("supabase_user_id") not in (None, supabase_user_id):
+            from fastapi import HTTPException
+
+            raise HTTPException(status_code=409, detail="This PlacPrep account is linked to a different Supabase identity")
+        conn.execute(
+            text("UPDATE users SET supabase_user_id = :supabase_user_id WHERE user_id = :user_id AND supabase_user_id IS NULL"),
+            {"supabase_user_id": supabase_user_id, "user_id": user["user_id"]},
+        )
+        mapped_user = get_user_by_id(conn, int(user["user_id"]))
+        if mapped_user.get("supabase_user_id") != supabase_user_id:
+            from fastapi import HTTPException
+
+            raise HTTPException(status_code=409, detail="This PlacPrep account is linked to a different Supabase identity")
+        return mapped_user
+
+    metadata = verified_user.get("user_metadata") or {}
+    display_name = (
+        metadata.get("display_name")
+        or metadata.get("full_name")
+        or metadata.get("name")
+        or email.split("@", 1)[0]
+    )
     result = conn.execute(
         text("""
-            INSERT INTO users (email, password_hash, display_name, role, is_active)
-            VALUES (:email, :password_hash, :display_name, 'STUDENT', 1)
+            INSERT INTO users (email, password_hash, display_name, role, is_active, supabase_user_id)
+            VALUES (:email, :password_hash, :display_name, 'STUDENT', 1, :supabase_user_id)
         """),
         {
             "email": email,
-            "password_hash": password_hash,
-            "display_name": display_name
-        }
+            "password_hash": get_password_hash(secrets.token_urlsafe(48)),
+            "display_name": str(display_name)[:120],
+            "supabase_user_id": supabase_user_id,
+        },
     )
-    user_id = result.lastrowid
-    return get_user_by_id(conn, user_id)
-
-def authenticate_user(conn, email: str, password: str) -> dict:
-    user = get_user_by_email(conn, email)
-    if not user:
-        return None
-    if not verify_password(password, user["password_hash"]):
-        return None
-    return user
-
-def find_user_by_google_id(conn, google_id: str) -> dict:
-    row = conn.execute(text("SELECT * FROM users WHERE google_id = :google_id"), {"google_id": google_id}).mappings().first()
-    return dict(row) if row else None
-
-def create_google_user(conn, identity: dict) -> dict:
-    # The schema requires password_hash. Store a random, undisclosed password hash
-    # so the account has no usable password login until the user explicitly sets one.
-    result = conn.execute(text("""
-        INSERT INTO users (email, password_hash, display_name, role, is_active, google_id, profile_picture)
-        VALUES (:email, :password_hash, :display_name, 'STUDENT', 1, :google_id, :profile_picture)
-    """), {
-        "email": identity["email"].lower(),
-        "password_hash": get_password_hash(secrets.token_urlsafe(48)),
-        "display_name": identity["name"][:120],
-        "google_id": identity["sub"],
-        "profile_picture": identity.get("picture"),
-    })
-    return get_user_by_id(conn, result.lastrowid)
-
-def attach_google_identity(conn, user_id: int, identity: dict) -> dict:
-    conn.execute(text("""
-        UPDATE users SET google_id = :google_id, profile_picture = :profile_picture
-        WHERE user_id = :user_id AND google_id IS NULL
-    """), {"google_id": identity["sub"], "profile_picture": identity.get("picture"), "user_id": user_id})
-    return get_user_by_id(conn, user_id)
-
-def create_google_nonce(conn) -> str:
-    nonce = secrets.token_urlsafe(32)
-    conn.execute(text("DELETE FROM google_auth_nonces WHERE expires_at <= UTC_TIMESTAMP(6)"))
-    conn.execute(text("""
-        INSERT INTO google_auth_nonces (nonce_hash, expires_at)
-        VALUES (:nonce_hash, DATE_ADD(UTC_TIMESTAMP(6), INTERVAL 5 MINUTE))
-    """), {"nonce_hash": hashlib.sha256(nonce.encode()).hexdigest()})
-    return nonce
-
-def consume_google_nonce(conn, nonce: str) -> bool:
-    result = conn.execute(text("""
-        DELETE FROM google_auth_nonces
-        WHERE nonce_hash = :nonce_hash AND expires_at > UTC_TIMESTAMP(6)
-    """), {"nonce_hash": hashlib.sha256(nonce.encode()).hexdigest()})
-    return result.rowcount == 1
+    return get_user_by_id(conn, int(result.lastrowid))

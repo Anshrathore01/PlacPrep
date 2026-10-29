@@ -78,7 +78,8 @@ python migrations/009_ai_features.py
 uvicorn app.main:app --reload
 ```
 
-Use the existing JWT bearer token for both routes. Example mock request:
+Use the current Supabase Auth access token as the bearer token for both routes.
+Example mock request:
 
 ```json
 {

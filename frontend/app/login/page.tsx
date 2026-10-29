@@ -2,14 +2,13 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FormEvent, useCallback, useEffect, useState, Suspense } from "react";
+import { FormEvent, useEffect, useState, Suspense } from "react";
 import { Sparkles } from "lucide-react";
 import { useAuth } from "@/components/providers";
-import { ApiError } from "@/lib/api";
-import { GoogleSignIn } from "@/components/google-sign-in";
+import { GoogleOAuthButton } from "@/components/google-oauth-button";
 
 function LoginForm() {
-  const { signIn, signInWithGoogle, user, loading } = useAuth();
+  const { signIn, user, loading, authError } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
@@ -35,25 +34,11 @@ function LoginForm() {
       await signIn(email, password);
       router.replace(destination);
     } catch (cause) {
-      setError(
-        cause instanceof ApiError
-          ? cause.message
-          : "Unable to sign in. Please check your credentials.",
-      );
+      setError(cause instanceof Error ? cause.message : "Unable to sign in. Please check your credentials.");
     } finally {
       setBusy(false);
     }
   };
-
-  const googleLogin = useCallback(async (credential: string, nonce: string) => {
-    setError("");
-    try {
-      await signInWithGoogle(credential, nonce);
-      router.replace(destination);
-    } catch (cause) {
-      setError(cause instanceof ApiError ? cause.message : "Google sign-in failed. Please try again.");
-    }
-  }, [destination, router, signInWithGoogle]);
 
   return (
     <AuthFrame
@@ -61,7 +46,7 @@ function LoginForm() {
       subtitle="Continue your placement preparation journey."
     >
       <div className="mb-5">
-        <GoogleSignIn disabled={busy} onCredential={googleLogin} />
+        <GoogleOAuthButton onError={setError} />
       </div>
       <div className="mb-5 flex items-center gap-3 text-xs text-slate-400"><span className="h-px flex-1 bg-slate-200" />OR CONTINUE WITH EMAIL<span className="h-px flex-1 bg-slate-200" /></div>
       <form onSubmit={submit} className="space-y-4">
@@ -87,9 +72,14 @@ function LoginForm() {
             placeholder="••••••••"
           />
         </label>
-        {error && (
+        <div className="-mt-2 text-right">
+          <Link href="/reset-password" className="text-sm font-semibold text-indigo-600 hover:text-indigo-700">Forgot password?</Link>
+        </div>
+        {(error || authError || searchParams.get("error") === "auth_callback_failed") && (
           <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-600">
-            {error}
+            {searchParams.get("error") === "auth_callback_failed" && !error
+              ? "Google sign-in could not be completed. Please try again."
+              : error || authError}
             {error.includes("account linking page") && <Link href="/account/link-google" className="ml-1 font-semibold underline">Link Google</Link>}
           </div>
         )}

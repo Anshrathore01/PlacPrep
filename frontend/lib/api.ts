@@ -1,14 +1,22 @@
 import type { AIRequest, AIResponse, AnalyticsSummary, Attempt, Company, Blueprint, MockTest, PlacoResponse, ProductDsaQuestion, Question, QuestionListItem, SubjectTrack, User } from "./types";
+import { createSupabaseBrowserClient } from "./supabase/client";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000";
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL?.trim()
+  || (process.env.NODE_ENV !== "production" ? "http://127.0.0.1:8000" : "");
 export class ApiError extends Error { constructor(public status: number, message: string) { super(message); } }
-function getToken() { return typeof window === "undefined" ? null : localStorage.getItem("prepwise_token"); }
 async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
+  if (!BASE_URL) {
+    throw new ApiError(0, "The API server is not configured. Set NEXT_PUBLIC_API_BASE_URL and rebuild the frontend.");
+  }
   const headers = new Headers(init.headers);
   headers.set("Content-Type", "application/json");
-  const token = getToken(); if (token) headers.set("Authorization", `Bearer ${token}`);
+  if (typeof window !== "undefined") {
+    const { data: { session } } = await createSupabaseBrowserClient().auth.getSession();
+    if (session?.access_token) headers.set("Authorization", `Bearer ${session.access_token}`);
+  }
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), path === "/ai/placo/chat" ? 60_000 : 15_000);
+  const timeoutMs = path.startsWith("/ai/") ? 60_000 : 35_000;
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
   let response: Response;
   try {
     response = await fetch(`${BASE_URL}${path}`, {
@@ -19,53 +27,47 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
     });
   } catch (error) {
     if (error instanceof DOMException && error.name === "AbortError") {
-      throw new ApiError(0, "The request timed out. Please try again.");
+      throw new ApiError(0, "The server took too long to respond. If the backend is waking up, please retry shortly.");
     }
     throw error;
   } finally {
     clearTimeout(timeout);
   }
   if (!response.ok) {
-    let message = `Request failed (${response.status})`;
-    if (response.status >= 500) {
-      message = "Unable to complete your request right now. Please try again.";
-      if (path === "/ai/placo/chat" && response.status === 503) {
-        try {
-          const body = await response.json();
-          if (typeof body.detail === "string") message = body.detail;
-        } catch {}
+    let message = response.status >= 500
+      ? "Unable to complete your request right now. Please try again."
+      : `Request failed (${response.status})`;
+
+    try {
+      const body = await response.json();
+      if (typeof body.detail === "string" && body.detail.trim()) {
+        message = body.detail.trim();
+      } else if (Array.isArray(body.detail)) {
+        const issues = body.detail
+          .map((issue: { msg?: unknown; loc?: unknown[] }) => {
+            const field = Array.isArray(issue.loc) ? issue.loc.at(-1) : undefined;
+            return typeof issue.msg === "string"
+              ? `${typeof field === "string" ? `${field}: ` : ""}${issue.msg}`
+              : "";
+          })
+          .filter(Boolean)
+          .join("; ");
+        if (issues) message = issues;
+      } else if (typeof body.detail?.message === "string" && body.detail.message.trim()) {
+        message = body.detail.message.trim();
+      } else if (typeof body.message === "string" && body.message.trim()) {
+        message = body.message.trim();
       }
-    } else {
-      try {
-        const body = await response.json();
-        if (typeof body.detail === "string") {
-          message = body.detail;
-        } else if (Array.isArray(body.detail)) {
-          message = body.detail
-            .map((issue: { msg?: unknown; loc?: unknown[] }) => {
-              const field = Array.isArray(issue.loc) ? issue.loc.at(-1) : undefined;
-              return typeof issue.msg === "string"
-                ? `${typeof field === "string" ? `${field}: ` : ""}${issue.msg}`
-                : "";
-            })
-            .filter(Boolean)
-            .join("; ") || message;
-        } else if (typeof body.detail?.message === "string") {
-          message = body.detail.message;
-        }
-      } catch {}
+    } catch {}
+
+    if (response.status === 401 && typeof window !== "undefined") {
+      void createSupabaseBrowserClient().auth.signOut({ scope: "local" });
     }
-    if (response.status === 401 && typeof window !== "undefined") localStorage.removeItem("prepwise_token");
     throw new ApiError(response.status, message);
   }
   return response.status === 204 ? (undefined as T) : response.json();
 }
 export const api = {
-  login: (body: { email: string; password: string }) => request<{ access_token: string }>("/auth/login", { method: "POST", body: JSON.stringify(body) }),
-  googleLogin: (body: { credential: string; nonce: string }) => request<{ access_token: string }>("/auth/google", { method: "POST", body: JSON.stringify(body) }),
-  googleNonce: () => request<{ nonce: string }>("/auth/google/nonce"),
-  linkGoogle: (body: { credential: string; nonce: string }) => request<User>("/auth/google/link", { method: "POST", body: JSON.stringify(body) }),
-  register: (body: { email: string; password: string; display_name: string }) => request<User>("/auth/register", { method: "POST", body: JSON.stringify(body) }),
   me: () => request<User>("/auth/me"),
   questions: (params = "") => request<QuestionListItem[]>(`/questions${params}`),
   codingPractice: () => request<{ service_companies: string[]; sections: { title: string; problems: { id: string; number: number; title: string; url: string }[] }[]; solved_problem_ids: string[]; authenticated: boolean }>("/coding-practice/catalog"),

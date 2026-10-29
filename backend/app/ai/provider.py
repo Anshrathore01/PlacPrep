@@ -4,17 +4,24 @@
 import json
 import logging
 import random
+import re
 import time
 from abc import ABC, abstractmethod
 from typing import TypeVar
 
 from fastapi import HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
 from app.ai.config import get_ai_config
 
 logger = logging.getLogger(__name__)
 ResponseModel = TypeVar("ResponseModel", bound=BaseModel)
+_SECRET_PATTERNS = (
+    (re.compile(r"(?i)\bBearer\s+[A-Za-z0-9._~+/=-]+"), "Bearer [REDACTED]"),
+    (re.compile(r"\bAIza[0-9A-Za-z_-]{20,}\b"), "[REDACTED_KEY]"),
+    (re.compile(r"\bsk-[A-Za-z0-9_-]{20,}\b"), "[REDACTED_KEY]"),
+    (re.compile(r"(?i)(api[_ -]?key|access[_ -]?token|refresh[_ -]?token)\s*[:=]\s*[^\s,;]+"), r"\1=[REDACTED]"),
+)
 
 
 class AIProviderError(RuntimeError):
@@ -46,19 +53,61 @@ class AIProvider(ABC):
         raise NotImplementedError
 
 
-def _log_provider_error(operation: str, model: str, error: Exception) -> None:
+def _log_provider_error(operation: str, model: str, error: Exception,
+                        sensitive_text: str | None = None,
+                        feature: str = "ai") -> None:
     """Log useful provider diagnostics without logging prompts or credentials."""
     status = getattr(error, "status_code", None)
     if status is None:
         status = getattr(error, "code", None)
 
+    message = _safe_provider_message(error, sensitive_text)
     logger.warning(
-        "AI provider failure feature=ai provider=gemini model=%s operation=%s attempt=1 category=%s status=%s",
+        "AI provider failure feature=%s provider=gemini model=%s operation=%s attempt=1 category=%s status=%s provider_message=%s",
+        feature,
         model,
         operation,
         getattr(error, "category", type(error).__name__),
         status,
+        message,
     )
+
+
+def _safe_provider_message(error: Exception, sensitive_text: str | None = None) -> str:
+    """Keep upstream diagnostics while redacting credential-like values."""
+    message = getattr(error, "message", None)
+    if not isinstance(message, str) or not message.strip():
+        return "(no provider message)"
+    message = " ".join(message.split())[:800]
+    if sensitive_text:
+        message = message.replace(sensitive_text, "[REDACTED_INPUT]")
+    for pattern, replacement in _SECRET_PATTERNS:
+        message = pattern.sub(replacement, message)
+    return message
+
+
+_GEMINI_CLIENTS: dict[str, object] = {}
+_OPENAI_CLIENTS: dict[str, object] = {}
+
+
+def _get_gemini_client(api_key: str):
+    if api_key not in _GEMINI_CLIENTS:
+        from google import genai
+        from google.genai import types
+
+        _GEMINI_CLIENTS[api_key] = genai.Client(
+            api_key=api_key,
+            http_options=types.HttpOptions(timeout=10_000),
+        )
+    return _GEMINI_CLIENTS[api_key]
+
+
+def _get_openai_client(api_key: str):
+    if api_key not in _OPENAI_CLIENTS:
+        from openai import OpenAI
+
+        _OPENAI_CLIENTS[api_key] = OpenAI(api_key=api_key, timeout=10.0, max_retries=0)
+    return _OPENAI_CLIENTS[api_key]
 
 
 class GeminiProvider(AIProvider):
@@ -71,25 +120,21 @@ class GeminiProvider(AIProvider):
         if not config.model:
             raise AIProviderError("AI model configuration is empty.")
 
+        self.model = model or config.model
+        self.feature = "ai"
+
         try:
-            from google import genai
-            from google.genai import types
+            self._client = _get_gemini_client(config.api_key)
         except ImportError as error:
             raise AIProviderError(
-                "AI provider dependency is unavailable."
+                "AI provider dependency is unavailable.",
+                category="dependency",
             ) from error
-
-        self.model = model or config.model
-
-        try:
-            self._client = genai.Client(
-                api_key=config.api_key,
-                http_options=types.HttpOptions(timeout=8_000),
-            )
         except Exception as error:
             _log_provider_error("initialization", self.model, error)
             raise AIProviderError(
-                "AI provider could not be initialized."
+                "AI provider could not be initialized.",
+                **_failure_details(error),
             ) from error
 
     def generate_structured(
@@ -127,7 +172,7 @@ class GeminiProvider(AIProvider):
         except AIProviderError:
             raise
         except Exception as error:
-            _log_provider_error("structured generation", self.model, error)
+            _log_provider_error("structured generation", self.model, error, prompt, getattr(self, "feature", "ai"))
             raise AIProviderError(
                 "AI provider could not complete the request.", **_failure_details(error)
             ) from error
@@ -149,7 +194,7 @@ class GeminiProvider(AIProvider):
         except AIProviderError:
             raise
         except Exception as error:
-            _log_provider_error("text generation", self.model, error)
+            _log_provider_error("text generation", self.model, error, prompt, getattr(self, "feature", "ai"))
             raise AIProviderError(
                 "AI provider could not complete the request.", **_failure_details(error)
             ) from error
@@ -157,9 +202,20 @@ class GeminiProvider(AIProvider):
 
 def _failure_details(error: Exception) -> dict:
     status = getattr(error, "status_code", None)
-    retryable = status in {408, 429, 500, 502, 503, 504}
+    body = getattr(error, "body", None)
+    body_error = body.get("error", body) if isinstance(body, dict) else {}
+    if not isinstance(body_error, dict):
+        body_error = {}
+    code = str(getattr(error, "code", "") or body_error.get("code", "") or "").casefold()
+    message = str(getattr(error, "message", "") or body_error.get("message", "") or "").casefold()
+    quota_exhausted = any(marker in f"{code} {message}" for marker in (
+        "insufficient_quota", "billing_hard_limit", "quota_exceeded",
+        "resource_exhausted", "exceeded your current quota",
+    ))
+    retryable = status in {408, 429, 500, 502, 503, 504} and not quota_exhausted
     category = (
-        "rate_limit" if status == 429 else "temporary_outage" if retryable
+        "invalid_structured_output" if isinstance(error, ValidationError)
+        else "quota_exhausted" if quota_exhausted else "rate_limit" if status == 429 else "temporary_outage" if retryable
         else "authentication" if status in {401, 403}
         else "unavailable_model" if status == 404
         else "invalid_request" if status == 400 else "provider_error"
@@ -174,12 +230,33 @@ def _failure_details(error: Exception) -> dict:
             "category": category, "retry_after": retry_after}
 
 
+def _openai_strict_schema(model: type[ResponseModel]) -> dict:
+    """Normalize Pydantic JSON Schema to OpenAI strict Structured Outputs rules."""
+    schema = model.model_json_schema()
+
+    def normalize(node):
+        if not isinstance(node, dict):
+            return
+        if node.get("type") == "object":
+            properties = node.get("properties", {})
+            node["additionalProperties"] = False
+            node["required"] = list(properties)
+            for child in properties.values():
+                normalize(child)
+        if node.get("type") == "array":
+            normalize(node.get("items"))
+        for definition in node.get("$defs", {}).values():
+            normalize(definition)
+
+    normalize(schema)
+    return schema
+
+
 class OpenAIProvider(AIProvider):
     def __init__(self, api_key: str, model: str):
         self.model = model
         try:
-            from openai import OpenAI
-            self._client = OpenAI(api_key=api_key, timeout=8.0, max_retries=0)
+            self._client = _get_openai_client(api_key)
         except ImportError as error:
             raise AIProviderError("OpenAI dependency is unavailable.", category="dependency") from error
         except Exception as error:
@@ -206,7 +283,7 @@ class OpenAIProvider(AIProvider):
                 messages=[{"role": "user", "content": prompt}],
                 response_format={"type": "json_schema", "json_schema": {
                     "name": response_schema.__name__, "strict": True,
-                    "schema": response_schema.model_json_schema(),
+                    "schema": _openai_strict_schema(response_schema),
                 }},
             )
             content = response.choices[0].message.content
@@ -239,6 +316,8 @@ class FallbackAIProvider(AIProvider):
                 attempts += 1
                 total_attempts += 1
                 try:
+                    if hasattr(provider, "feature"):
+                        provider.feature = self.feature
                     result = getattr(provider, method)(*args)
                     if validator is not None:
                         try:
@@ -255,13 +334,15 @@ class FallbackAIProvider(AIProvider):
                     return result
                 except AIProviderError as error:
                     last_error = error
-                    logger.warning("AI provider failure feature=%s provider=%s model=%s attempt=%s category=%s status=%s fallback_attempted=%s", self.feature, name, provider.model, attempts, error.category, error.status_code, True)
+                    fallback_attempted = provider_index < len(self.providers) - 1 or attempts <= self.max_retries
+                    logger.warning("AI provider failure feature=%s provider=%s model=%s attempt=%s category=%s status=%s fallback_attempted=%s", self.feature, name, provider.model, attempts, error.category, error.status_code, fallback_attempted)
                     if not error.retryable or attempts > self.max_retries:
                         break
                     delay = min(error.retry_after or (0.25 * (2 ** (attempts - 1)) + random.random() * 0.15), 1.5)
                     if time.monotonic() + delay >= deadline:
                         break
                     time.sleep(delay)
+        logger.error("AI fallback exhausted feature=%s attempts=%s last_category=%s last_status=%s fallback_succeeded=false", self.feature, total_attempts, last_error.category if last_error else "unconfigured", last_error.status_code if last_error else None)
         raise AIProviderError("AI providers are temporarily unavailable.",
                               status_code=last_error.status_code if last_error else None,
                               category=last_error.category if last_error else "unconfigured",
@@ -293,7 +374,13 @@ def get_ai_provider() -> AIProvider:
                 except AIProviderError:
                     logger.warning("AI provider unavailable feature=initialization provider=gemini model=%s category=configuration", config.gemini_fallback_model)
         if config.openai_api_key:
-            providers.append(("openai", OpenAIProvider(config.openai_api_key, config.openai_fallback_model)))
+            try:
+                providers.append(("openai", OpenAIProvider(config.openai_api_key, config.openai_fallback_model)))
+            except AIProviderError:
+                logger.warning(
+                    "AI provider unavailable feature=initialization provider=openai model=%s category=configuration",
+                    config.openai_fallback_model,
+                )
         if not providers:
             raise AIProviderError("AI provider is not configured.")
         return FallbackAIProvider(providers, "ai")

@@ -192,6 +192,35 @@ def chat(
                 build_placo_prompt(context, safe_message, history)
             )
         except AIProviderError as error:
+            logger.warning(
+                "Placo chat provider failure user_id=%s feature=placo model=%s category=%s status=%s",
+                user_id,
+                getattr(provider, "model", "unknown"),
+                error.category,
+                error.status_code,
+            )
+            if error.category == "quota_exhausted":
+                raise HTTPException(
+                    status_code=429,
+                    detail="AI assistant quota is currently exhausted for the configured project. Please check provider quota or billing.",
+                ) from error
+            if error.category == "rate_limit":
+                headers = {"Retry-After": str(int(error.retry_after))} if error.retry_after else None
+                raise HTTPException(
+                    status_code=429,
+                    detail="Placo is currently experiencing high demand. Please try again in a few moments.",
+                    headers=headers,
+                ) from error
+            if error.category in {"authentication", "configuration", "dependency"}:
+                raise HTTPException(
+                    status_code=503,
+                    detail="AI service configuration issue. Please verify backend provider settings.",
+                ) from error
+            if error.category == "unavailable_model":
+                raise HTTPException(
+                    status_code=503,
+                    detail="Configured AI model is unavailable or not supported in this region/project.",
+                ) from error
             raise HTTPException(
                 status_code=503,
                 detail="Placo is temporarily unavailable. Please try again shortly.",
@@ -205,9 +234,9 @@ def chat(
         answer,
     )
     logger.info(
-        "Placo chat completed model=%s prompt_version=%s mode=%s "
-        "request_id=%s status=success latency_ms=%s",
-        get_ai_config().model,
+        "Placo chat completed feature=placo model=%s prompt_version=%s mode=%s "
+        "conversation_id=%s status=success latency_ms=%s",
+        getattr(provider, "model", get_ai_config().model),
         PLACO_PROMPT_VERSION,
         context["assessment_state"],
         conversation_id,

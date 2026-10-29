@@ -33,7 +33,15 @@ function PlacoPanelSession() {
     setBusy(true);
     setError("");
     setRetryText(text);
-    setMessages((prev) => [...prev, { role: "user", content: text }]);
+
+    // Only append user message if it is not already the last pending message in the thread
+    setMessages((prev) => {
+      const last = prev[prev.length - 1];
+      if (last && last.role === "user" && last.content === text) {
+        return prev;
+      }
+      return [...prev, { role: "user", content: text }];
+    });
     setMessage("");
 
     try {
@@ -45,6 +53,7 @@ function PlacoPanelSession() {
       });
       setConversationId(result.conversation_id);
       setMessages((prev) => [...prev, { role: "assistant", content: result.message }]);
+      setRetryText("");
     } catch (cause) {
       if (cause instanceof ApiError && cause.status === 401) {
         setError("Please sign in to chat with Placo.");

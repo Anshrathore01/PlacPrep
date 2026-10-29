@@ -1,15 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useCallback, useState, useEffect, Suspense } from "react";
+import { FormEvent, useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/components/providers";
-import { api, ApiError } from "@/lib/api";
 import { Sparkles } from "lucide-react";
-import { GoogleSignIn } from "@/components/google-sign-in";
+import { GoogleOAuthButton } from "@/components/google-oauth-button";
 
 function RegisterForm() {
-  const { user, loading, signInWithGoogle } = useAuth();
+  const { user, loading, signUp } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -18,6 +17,7 @@ function RegisterForm() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [confirmationSent, setConfirmationSent] = useState(false);
 
   const next = searchParams.get("next");
 
@@ -33,40 +33,15 @@ function RegisterForm() {
     setError("");
 
     try {
-      await api.register({
-        display_name: name,
-        email,
-        password,
-      });
-      // Redirect to login preserving next route
-      router.replace(next ? `/login?next=${encodeURIComponent(next)}` : "/login");
+      const needsConfirmation = await signUp(email, password, name, next || "/dashboard");
+      if (needsConfirmation) setConfirmationSent(true);
+      else router.replace(next?.startsWith("/") && !next.startsWith("//") ? next : "/dashboard");
     } catch (cause) {
-      if (cause instanceof ApiError) {
-        setError(
-          cause.status === 409
-            ? "An account with this email already exists. Please sign in."
-            : cause.status >= 500
-            ? "Unable to create your account right now. Please try again."
-            : cause.message,
-        );
-      } else {
-        setError("Unable to create your account right now. Please try again.");
-      }
+      setError(cause instanceof Error ? cause.message : "Unable to create your account right now. Please try again.");
     } finally {
       setBusy(false);
     }
   };
-
-  const googleSignup = useCallback(async (credential: string, nonce: string) => {
-    setError("");
-    try {
-      await signInWithGoogle(credential, nonce);
-      const destination = next?.startsWith("/") && !next.startsWith("//") ? next : "/dashboard";
-      router.replace(destination);
-    } catch (cause) {
-      setError(cause instanceof ApiError ? cause.message : "Google sign-up failed. Please try again.");
-    }
-  }, [next, router, signInWithGoogle]);
 
   return (
     <main className="grid min-h-screen place-items-center bg-slate-50 px-5 py-10">
@@ -86,9 +61,12 @@ function RegisterForm() {
           <p className="mt-2 text-sm text-slate-500">
             Start a focused path to placement readiness.
           </p>
+          <p className="mt-2 text-xs text-slate-500">
+            Migrating an existing PlacPrep account? Use its same email and confirm it. Your existing profile and history will be linked after verification; choose a new Supabase password.
+          </p>
 
           <div className="mt-7 mb-5">
-            <GoogleSignIn disabled={busy} onCredential={googleSignup} />
+            <GoogleOAuthButton onError={setError} />
           </div>
           <div className="mb-5 flex items-center gap-3 text-xs text-slate-400"><span className="h-px flex-1 bg-slate-200" />OR CREATE WITH EMAIL<span className="h-px flex-1 bg-slate-200" /></div>
           <form onSubmit={submit} className="space-y-4">
@@ -133,6 +111,12 @@ function RegisterForm() {
               <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-600">
                 {error}
               </div>
+            )}
+
+            {confirmationSent && (
+              <p role="status" className="rounded-xl border border-green-200 bg-green-50 p-3 text-sm text-green-700">
+                Check your email for the Supabase confirmation link. It will return you to PlacPrep to finish setting up your account.
+              </p>
             )}
 
             <button
