@@ -4,7 +4,7 @@ from typing import Optional
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-from sqlalchemy import text
+from sqlalchemy import bindparam, text
 
 from app.environment import load_environment
 from app.database import engine, test_connection
@@ -307,53 +307,59 @@ def get_taxonomy():
             """)
         ).mappings().all()
 
-        taxonomy = []
-        for track in tracks:
-            topics = connection.execute(
+        if not tracks:
+            return []
+
+        track_ids = [track["track_id"] for track in tracks]
+        topics = connection.execute(
+            text("""
+                SELECT topic_id, topic_name, track_id
+                FROM topics
+                WHERE track_id IN :track_ids
+                ORDER BY topic_name, topic_id
+            """).bindparams(bindparam("track_ids", expanding=True)),
+            {"track_ids": track_ids},
+        ).mappings().all()
+
+        subtopics_by_topic = {}
+        if topics:
+            topic_ids = [topic["topic_id"] for topic in topics]
+            subtopics = connection.execute(
                 text("""
-                    SELECT topic_id, topic_name
-                    FROM topics
-                    WHERE track_id = :track_id
-                    ORDER BY topic_name, topic_id
-                """),
-                {"track_id": track["track_id"]},
+                    SELECT subtopic_id, subtopic_name, topic_id
+                    FROM subtopics
+                    WHERE topic_id IN :topic_ids
+                    ORDER BY subtopic_name, subtopic_id
+                """).bindparams(bindparam("topic_ids", expanding=True)),
+                {"topic_ids": topic_ids},
             ).mappings().all()
 
-            topic_items = []
-            for topic in topics:
-                subtopics = connection.execute(
-                    text("""
-                        SELECT subtopic_id, subtopic_name
-                        FROM subtopics
-                        WHERE topic_id = :topic_id
-                        ORDER BY subtopic_name, subtopic_id
-                    """),
-                    {"topic_id": topic["topic_id"]},
-                ).mappings().all()
-
-                topic_items.append(
+            for subtopic in subtopics:
+                subtopics_by_topic.setdefault(subtopic["topic_id"], []).append(
                     {
-                        "topic_id": int(topic["topic_id"]),
-                        "topic_name": topic["topic_name"],
-                        "subtopics": [
-                            {
-                                "subtopic_id": int(subtopic["subtopic_id"]),
-                                "subtopic_name": subtopic["subtopic_name"],
-                            }
-                            for subtopic in subtopics
-                        ],
+                        "subtopic_id": int(subtopic["subtopic_id"]),
+                        "subtopic_name": subtopic["subtopic_name"],
                     }
                 )
 
-            taxonomy.append(
+        topics_by_track = {}
+        for topic in topics:
+            topics_by_track.setdefault(topic["track_id"], []).append(
                 {
-                    "track_id": int(track["track_id"]),
-                    "track_name": track["track_name"],
-                    "topics": topic_items,
+                    "topic_id": int(topic["topic_id"]),
+                    "topic_name": topic["topic_name"],
+                    "subtopics": subtopics_by_topic.get(topic["topic_id"], []),
                 }
             )
 
-        return taxonomy
+        return [
+            {
+                "track_id": int(track["track_id"]),
+                "track_name": track["track_name"],
+                "topics": topics_by_track.get(track["track_id"], []),
+            }
+            for track in tracks
+        ]
 
 
 class MockTestListItem(BaseModel):
