@@ -45,7 +45,7 @@ export function AppShell({
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user, signOut, status } = useAuth();
-  const { openPanel } = usePlaco();
+  const { openPanel, hasOpened } = usePlaco();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -241,7 +241,7 @@ export function AppShell({
         <main className="mx-auto max-w-[1440px] p-5 md:p-8">{children}</main>
       </div>
 
-      <PlacoPanel />
+      {hasOpened && <PlacoPanel />}
     </div>
   );
 }

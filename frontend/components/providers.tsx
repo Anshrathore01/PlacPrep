@@ -204,6 +204,7 @@ type PlacoContextData = {
 
 type PlacoState = {
   open: boolean;
+  hasOpened: boolean;
   context: PlacoContextData;
   openPanel: (context?: PlacoContextData) => void;
   closePanel: () => void;
@@ -221,9 +222,11 @@ export function usePlaco() {
 
 function PlacoProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
+  const [hasOpened, setHasOpened] = useState(false);
   const [context, setContext] = useState<PlacoContextData>({});
 
   const openPanel = useCallback((next: PlacoContextData = {}) => {
+    setHasOpened(true);
     setContext({ ...next, requestKey: next.request ? Date.now() : undefined });
     setOpen(true);
   }, []);
@@ -237,6 +240,7 @@ function PlacoProvider({ children }: { children: ReactNode }) {
     <PlacoContext.Provider
       value={{
         open,
+        hasOpened,
         context,
         openPanel,
         closePanel,

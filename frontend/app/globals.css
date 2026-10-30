@@ -35,8 +35,6 @@
 * { box-sizing: border-box; }
 body { background: var(--background); color: var(--foreground); }
 button, input, select, textarea { font: inherit; }
-a { color: inherit; text-decoration: none; }
-
 .card { @apply rounded-2xl border border-slate-200 bg-white shadow-sm; }
 .focus-ring { @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2; }
 .hide-scrollbar::-webkit-scrollbar { display: none; }
