@@ -17,19 +17,19 @@ export default function Questions() {
   const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
-    let active = true;
-    api.questions(`?limit=100${type ? `&question_type=${type}` : ""}`)
+    const controller = new AbortController();
+    api.questions(`?limit=100${type ? `&question_type=${type}` : ""}`, controller.signal)
       .then((data) => {
-        if (active) setItems(data);
+        setItems(data);
       })
       .catch((e: Error) => {
-        if (active) setError(e.message);
+        if (!controller.signal.aborted) setError(e.message);
       })
       .finally(() => {
-        if (active) setLoading(false);
+        if (!controller.signal.aborted) setLoading(false);
       });
     return () => {
-      active = false;
+      controller.abort();
     };
   }, [type, reloadKey]);
 

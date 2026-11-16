@@ -17,19 +17,19 @@ export default function Dashboard() {
   const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
-    let active = true;
-    api.summary()
+    const controller = new AbortController();
+    api.summary(controller.signal)
       .then((res) => {
-        if (active) setData(res);
+        setData(res);
       })
       .catch((e: Error) => {
-        if (active) setError(e.message);
+        if (!controller.signal.aborted) setError(e.message);
       })
       .finally(() => {
-        if (active) setLoading(false);
+        if (!controller.signal.aborted) setLoading(false);
       });
     return () => {
-      active = false;
+      controller.abort();
     };
   }, [reloadKey]);
 

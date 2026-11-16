@@ -5,6 +5,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL?.trim()
   || (process.env.NODE_ENV !== "production" ? "http://127.0.0.1:8000" : "");
 const PUBLIC_DATA_TTL_MS = 5 * 60_000;
 const publicDataCache = new Map<string, { expiresAt: number; promise: Promise<unknown> }>();
+const inFlightGetRequests = new Map<string, Promise<unknown>>();
 export class ApiError extends Error {
   constructor(public status: number, message: string, public retryAfterSeconds?: number) {
     super(message);
@@ -34,10 +35,23 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   }
   const headers = new Headers(init.headers);
   headers.set("Content-Type", "application/json");
-  if (typeof window !== "undefined") {
+  if (typeof window !== "undefined" && !headers.has("Authorization")) {
     const { data: { session } } = await createSupabaseBrowserClient().auth.getSession();
     if (session?.access_token) headers.set("Authorization", `Bearer ${session.access_token}`);
   }
+  const method = (init.method || "GET").toUpperCase();
+  const authorization = headers.get("Authorization") || "";
+  // Only share current GET work. User-specific responses are isolated by the
+  // bearer token, and mutations/attempt state are never put in a settled cache.
+  const requestKey = method === "GET" && !init.signal
+    ? `${authorization}\n${path}`
+    : null;
+  if (requestKey) {
+    const existing = inFlightGetRequests.get(requestKey);
+    if (existing) return existing as Promise<T>;
+  }
+
+  const perform = async (): Promise<T> => {
   const controller = new AbortController();
   const timeoutMs = path.startsWith("/ai/") ? 60_000 : 35_000;
   const timeout = setTimeout(() => controller.abort(), timeoutMs);
@@ -46,7 +60,7 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
     response = await fetch(`${BASE_URL}${path}`, {
       ...init,
       headers,
-      signal: init.signal ?? controller.signal,
+      signal: init.signal ? AbortSignal.any([init.signal, controller.signal]) : controller.signal,
       cache: "no-store",
     });
   } catch (error) {
@@ -98,31 +112,41 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
     throw new ApiError(response.status, message, retryAfterSeconds);
   }
   return response.status === 204 ? (undefined as T) : response.json();
+  };
+
+  if (!requestKey) return perform();
+  const promise = perform();
+  inFlightGetRequests.set(requestKey, promise);
+  try {
+    return await promise;
+  } finally {
+    if (inFlightGetRequests.get(requestKey) === promise) inFlightGetRequests.delete(requestKey);
+  }
 }
 export const api = {
   me: () => request<User>("/auth/me"),
-  questions: (params = "") => request<QuestionListItem[]>(`/questions${params}`),
+  questions: (params = "", signal?: AbortSignal) => request<QuestionListItem[]>(`/questions${params}`, { signal }),
   codingPractice: () => request<{ service_companies: string[]; sections: { title: string; problems: { id: string; number: number; title: string; url: string }[] }[]; solved_problem_ids: string[]; authenticated: boolean }>("/coding-practice/catalog"),
   productDsaQuestions: () => request<{ questions: ProductDsaQuestion[]; total: number; completed: number; remaining: number }>("/coding-practice/product"),
   setCodingProblemSolved: (id: string, is_solved: boolean) => request<{ problem_id: string; is_solved: boolean }>(`/coding-practice/progress/${encodeURIComponent(id)}`, { method: "PUT", body: JSON.stringify({ is_solved }) }),
-  question: (id: number) => request<Question>(`/questions/${id}`),
-  mocks: (id: number) => request<MockTest & { questions?: Question[] }>(`/mock-tests/${id}`),
+  question: (id: number, signal?: AbortSignal) => request<Question>(`/questions/${id}`, { signal }),
+  mocks: (id: number, signal?: AbortSignal) => request<MockTest & { questions?: Question[] }>(`/mock-tests/${id}`, { signal }),
   createMock: (body: Record<string, unknown>) => request<MockTest>("/mock-tests", { method: "POST", body: JSON.stringify(body) }),
-  attempt: async (id: number) => {
-    const response = await request<Attempt | { attempt: Attempt; questions: Attempt["questions"] }>(`/attempts/${id}`);
+  attempt: async (id: number, signal?: AbortSignal) => {
+    const response = await request<Attempt | { attempt: Attempt; questions: Attempt["questions"] }>(`/attempts/${id}`, { signal });
     if ("attempt" in response) return { ...response.attempt, questions: response.questions } as Attempt;
     return response;
   },
   startAttempt: (mock_test_id: number, duration_seconds?: number) => request<Attempt>("/attempts", { method: "POST", body: JSON.stringify({ mock_test_id, duration_seconds }) }),
   saveAnswer: (id: number, body: { question_id: number; selected_option_key?: string; answer_text?: string; time_spent_seconds: number }) => request<Record<string, unknown>>(`/attempts/${id}/answers`, { method: "POST", body: JSON.stringify(body) }),
   submitAttempt: (id: number) => request<Attempt>(`/attempts/${id}/submit`, { method: "POST" }),
-  summary: () => request<AnalyticsSummary>("/analytics/me/summary"),
-  topics: () => request<Record<string, unknown>[]>("/analytics/me/topics"),
-  difficulty: () => request<Record<string, unknown>[]>("/analytics/me/difficulty"),
+  summary: (signal?: AbortSignal) => request<AnalyticsSummary>("/analytics/me/summary", { signal }),
+  topics: (signal?: AbortSignal) => request<Record<string, unknown>[]>("/analytics/me/topics", { signal }),
+  difficulty: (signal?: AbortSignal) => request<Record<string, unknown>[]>("/analytics/me/difficulty", { signal }),
   progress: () => request<Record<string, unknown>>("/analytics/me/progress"),
   attempts: () => request<Record<string, unknown>>("/analytics/me/attempts"),
   companies: () => cachedPublicData("companies", () => request<Company[]>("/companies")),
-  company: (id: number) => request<Company>(`/companies/${id}`),
+  company: (id: number, signal?: AbortSignal) => request<Company>(`/companies/${id}`, { signal }),
   blueprints: () => request<Blueprint[]>("/blueprints"),
   generateAI: (body: AIRequest) => request<AIResponse>("/ai/mock-tests/generate", { method: "POST", body: JSON.stringify(body) }),
   taxonomy: () => cachedPublicData("taxonomy", () => request<SubjectTrack[]>("/taxonomy")),

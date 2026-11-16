@@ -1,12 +1,12 @@
 import { AppShell } from "@/components/shell";
-import { AppProviders, Protected } from "@/components/providers";
+import { Protected, PlacoProvider } from "@/components/providers";
 
 export default function ProtectedLayout({ children }: { children: React.ReactNode }) {
   return (
-    <AppProviders>
-      <Protected>
+    <Protected>
+      <PlacoProvider>
         <AppShell>{children}</AppShell>
-      </Protected>
-    </AppProviders>
+      </PlacoProvider>
+    </Protected>
   );
 }

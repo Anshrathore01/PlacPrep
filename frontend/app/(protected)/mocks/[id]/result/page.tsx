@@ -31,26 +31,26 @@ export default function ResultPage() {
   const { openPanel } = usePlaco();
 
   useEffect(() => {
-    let active = true;
+    const controller = new AbortController();
     if (!attemptParam) {
       return () => {
-        active = false;
+        controller.abort();
       };
     }
 
-    api.attempt(Number(attemptParam))
+    api.attempt(Number(attemptParam), controller.signal)
       .then((data) => {
-        if (active) setAttempt(data);
+        setAttempt(data);
       })
       .catch((e: Error) => {
-        if (active) setError(e.message);
+        if (!controller.signal.aborted) setError(e.message);
       })
       .finally(() => {
-        if (active) setLoading(false);
+        if (!controller.signal.aborted) setLoading(false);
       });
 
     return () => {
-      active = false;
+      controller.abort();
     };
   }, [attemptParam, reloadKey]);
 

@@ -35,10 +35,9 @@ export default function AttemptPage() {
   const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
-    let active = true;
-    api.attempt(Number(attemptId))
+    const controller = new AbortController();
+    api.attempt(Number(attemptId), controller.signal)
       .then((data) => {
-        if (!active) return;
         setAttempt(data);
         const answers: Record<number, string> = {};
         for (const q of data.questions || []) {
@@ -66,14 +65,14 @@ export default function AttemptPage() {
         }
       })
       .catch((e: Error) => {
-        if (active) setError(e.message);
+        if (!controller.signal.aborted) setError(e.message);
       })
       .finally(() => {
-        if (active) setLoading(false);
+        if (!controller.signal.aborted) setLoading(false);
       });
 
     return () => {
-      active = false;
+      controller.abort();
     };
   }, [attemptId, mockId, reloadKey, router]);
 

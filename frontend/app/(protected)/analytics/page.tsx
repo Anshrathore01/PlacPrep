@@ -12,27 +12,29 @@ export default function Analytics() {
   const [difficulty, setDifficulty] = useState<Record<string, unknown>[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [topicsError, setTopicsError] = useState("");
+  const [difficultyError, setDifficultyError] = useState("");
 
   const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
-    let active = true;
-    Promise.all([api.summary(), api.topics(), api.difficulty()])
-      .then(([a, b, c]) => {
-        if (active) {
-          setSummary(a);
-          setTopics(b);
-          setDifficulty(c);
-        }
-      })
+    const controller = new AbortController();
+    api.summary(controller.signal)
+      .then(setSummary)
       .catch((e: Error) => {
-        if (active) setError(e.message);
+        if (!controller.signal.aborted) setError(e.message);
       })
       .finally(() => {
-        if (active) setLoading(false);
+        if (!controller.signal.aborted) setLoading(false);
       });
+    api.topics(controller.signal)
+      .then(setTopics)
+      .catch((e: Error) => { if (!controller.signal.aborted) setTopicsError(e.message); });
+    api.difficulty(controller.signal)
+      .then(setDifficulty)
+      .catch((e: Error) => { if (!controller.signal.aborted) setDifficultyError(e.message); });
     return () => {
-      active = false;
+      controller.abort();
     };
   }, [reloadKey]);
 
@@ -102,6 +104,7 @@ export default function Analytics() {
               );
             })}
             {!topics.length && <p className="text-sm text-slate-500">No topic data is available yet.</p>}
+            {topicsError && <p role="status" className="text-sm text-amber-700">Topic breakdown unavailable: {topicsError}</p>}
           </div>
         </section>
         <section className="card p-6">
@@ -128,6 +131,7 @@ export default function Analytics() {
                 Complete questions across difficulties to compare performance.
               </p>
             )}
+            {difficultyError && <p role="status" className="text-sm text-amber-700">Difficulty breakdown unavailable: {difficultyError}</p>}
           </div>
         </section>
       </div>

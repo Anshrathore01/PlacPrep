@@ -1,6 +1,10 @@
 import { AppShell } from "@/components/shell";
-import { AppProviders } from "@/components/providers";
+import { PlacoProvider } from "@/components/providers";
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
-  return <AppProviders><AppShell>{children}</AppShell></AppProviders>;
+  return (
+    <PlacoProvider>
+      <AppShell>{children}</AppShell>
+    </PlacoProvider>
+  );
 }

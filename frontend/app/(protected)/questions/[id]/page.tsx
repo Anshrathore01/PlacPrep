@@ -18,19 +18,19 @@ export default function QuestionPage() {
   const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
-    let active = true;
-    api.question(Number(id))
+    const controller = new AbortController();
+    api.question(Number(id), controller.signal)
       .then((data) => {
-        if (active) setQuestion(data);
+        setQuestion(data);
       })
       .catch((e: Error) => {
-        if (active) setError(e.message);
+        if (!controller.signal.aborted) setError(e.message);
       })
       .finally(() => {
-        if (active) setLoading(false);
+        if (!controller.signal.aborted) setLoading(false);
       });
     return () => {
-      active = false;
+      controller.abort();
     };
   }, [id, reloadKey]);
 

@@ -20,19 +20,19 @@ export default function MockDetail() {
   const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
-    let active = true;
-    api.mocks(Number(id))
+    const controller = new AbortController();
+    api.mocks(Number(id), controller.signal)
       .then((data) => {
-        if (active) { setMock(data); setDuration(Math.max(1, Math.min(480, Math.round((data.duration_seconds || 1800) / 60)))); }
+        setMock(data); setDuration(Math.max(1, Math.min(480, Math.round((data.duration_seconds || 1800) / 60))));
       })
       .catch((e: Error) => {
-        if (active) setError(e.message);
+        if (!controller.signal.aborted) setError(e.message);
       })
       .finally(() => {
-        if (active) setLoading(false);
+        if (!controller.signal.aborted) setLoading(false);
       });
     return () => {
-      active = false;
+      controller.abort();
     };
   }, [id, reloadKey]);
 

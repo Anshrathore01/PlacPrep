@@ -20,16 +20,16 @@ export default function CompanyPage() {
   const [durations, setDurations] = useState<Record<number, number>>({});
 
   useEffect(() => {
-    let active = true;
-    api.company(Number(id))
+    const controller = new AbortController();
+    api.company(Number(id), controller.signal)
       .then((data) => {
-        if (active) setCompany(data);
+        setCompany(data);
       })
       .catch((cause: Error) => {
-        if (active) setError(cause.message);
+        if (!controller.signal.aborted) setError(cause.message);
       });
     return () => {
-      active = false;
+      controller.abort();
     };
   }, [id]);
 
